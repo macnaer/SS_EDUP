@@ -1,7 +1,12 @@
+using SS_EDUP.Infrastructure.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Add dababase context
+builder.Services.AddDbContext<AppDbContext>();
 
 var app = builder.Build();
 

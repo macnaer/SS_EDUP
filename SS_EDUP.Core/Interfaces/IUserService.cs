@@ -9,10 +9,6 @@ namespace SS_EDUP.Core.Interfaces
 {
     public interface IUserService
     {
-        List<AppUser> GetAll();
-        AppUser? Get(int id);
-        void Create(AppUser user);
-        void Update(AppUser user);
-        void Delete(int id);
+        Task<AppUser> GetUserByIdAsync(string id);
     }
 }

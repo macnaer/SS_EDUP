@@ -13,8 +13,7 @@ namespace SS_EDUP.Infrastructure.Context
 {
     public class AppDbContext : IdentityDbContext
     {
-        public AppDbContext() : base() { }
         public AppDbContext(DbContextOptions options) : base(options) { }
-        DbSet<AppUser> AppUser { get; set; }
+        public DbSet<AppUser> AppUser { get; set; }
     }
 }

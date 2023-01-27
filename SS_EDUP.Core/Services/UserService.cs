@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using SS_EDUP.Core.Entities;
 using SS_EDUP.Core.Interfaces;
 using System;
@@ -11,34 +11,16 @@ namespace SS_EDUP.Core.Services
 {
     public class UserService : IUserService
     {
-        private readonly IRepository<UserManager<AppUser>> _userRepository;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
 
-        public UserService(IRepository<UserManager<AppUser>> userRepository)
+        public UserService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
-            _userRepository = userRepository;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
-        public void Create(AppUser user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public AppUser? Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<AppUser> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(AppUser user)
+        public Task<AppUser> GetUserByIdAsync(string id)
         {
             throw new NotImplementedException();
         }

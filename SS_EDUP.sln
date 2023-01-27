@@ -6,10 +6,13 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B325F273-2EC6-4BC3-8DC2-A2A38639F8D6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SS_EDUP.Web", "SS_EDUP.Web\SS_EDUP.Web.csproj", "{484466C0-A10E-43BC-9FF8-49BFA3EF712B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E0FB006B-E944-4BB0-A134-61E24DD0E15B} = {E0FB006B-E944-4BB0-A134-61E24DD0E15B}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SS_EDUP.Core", "SS_EDUP.Core\SS_EDUP.Core.csproj", "{E0FB006B-E944-4BB0-A134-61E24DD0E15B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SS_EDUP.Core", "SS_EDUP.Core\SS_EDUP.Core.csproj", "{E0FB006B-E944-4BB0-A134-61E24DD0E15B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SS_EDUP.Infrastructure", "SS_EDUP.Infrastructure\SS_EDUP.Infrastructure.csproj", "{C13257AF-D787-44E6-A19B-41B13A010E20}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SS_EDUP.Infrastructure", "SS_EDUP.Infrastructure\SS_EDUP.Infrastructure.csproj", "{C13257AF-D787-44E6-A19B-41B13A010E20}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

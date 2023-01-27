@@ -1,12 +1,25 @@
-using SS_EDUP.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+using SS_EDUP.Core.Interfaces;
+using SS_EDUP.Core.Services;
+using SS_EDUP.Infrastructure.Context;
+using SS_EDUP.Infrastructure.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Get connection string
+string connStr = builder.Configuration.GetConnectionString("DefaultConnection");
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Add dababase context
-builder.Services.AddDbContext<AppDbContext>();
+// Add database context
+builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(connStr));
+
+// Add generic repository
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
+// Add user service
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 

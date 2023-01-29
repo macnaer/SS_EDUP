@@ -10,10 +10,10 @@ namespace SS_EDUP.Core.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string? Decription { get; set }
+        public string? Decription { get; set; }
 
         // ------------ Navigation Property
-        public ICollection<Course> Courses { get; set }
+        public ICollection<Course> Courses { get; set; } = new HashSet<Course>();
 
 
     }

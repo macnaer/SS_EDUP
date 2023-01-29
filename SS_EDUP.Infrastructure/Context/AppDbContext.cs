@@ -24,5 +24,7 @@ namespace SS_EDUP.Infrastructure.Context
         }
 
         public DbSet<AppUser> AppUser { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Course> Courses { get; set; }
     }
 }

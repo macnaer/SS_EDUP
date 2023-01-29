@@ -29,28 +29,32 @@ namespace SS_EDUP.Infrastructure.Context
                 {
                     Id = 1,
                     Title = "C++ Basics",
-                    Price = 900,
+                    Description="Description C++ Basics",
+                    Price = 900.0m,
                     CategoryId = 1
                 },
                 new Course()  
                   {
-                    Id = 1,
+                    Id = 2,
                     Title = "C++ Advanced",
-                    Price = 900,
+                    Description="Description C++ Advanced",
+                    Price = 910.0m,
                     CategoryId = 1
                 },
                 new Course()
                 {
-                    Id = 2,
+                    Id = 3,
                     Title = "Figma",
-                    Price = 1500,
+                    Description="Description Figma",
+                    Price = 1500.0m,
                     CategoryId =2
                 },
                 new Course()
                 {
-                    Id = 2,
+                    Id = 4,
                     Title = "HTML/CSS/JavaScript",
-                    Price = 1500,
+                    Description="Description HTML/CSS/JavaScript",
+                    Price = 1850.0m,
                     CategoryId =3
                 }
             });

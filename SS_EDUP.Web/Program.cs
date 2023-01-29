@@ -6,39 +6,20 @@ using SS_EDUP.Core.Interfaces;
 using SS_EDUP.Core.Services;
 using SS_EDUP.Infrastructure.Context;
 using SS_EDUP.Infrastructure.Repository;
+using SS_EDUP.Web.Configuration.AutoMapper;
+using SS_EDUP.Web.Configuration.Repositories;
+using SS_EDUP.Web.Configuration.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Get connection string
-string connStr = builder.Configuration.GetConnectionString("DefaultConnection");
+// Add AutoMapper configuration 
+AutoMapperConfiguration.Config(builder.Services);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
+//Add Services configuration
+ServicesConfiguration.Config(builder.Services);
 
-// Add database context
-builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(connStr));
-
-// Add user service
-builder.Services.AddTransient<UserService>();
-
-// Add generic repository
-builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-
-// Add Identity
-builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
-{
-    options.SignIn.RequireConfirmedEmail = true;
-    options.Lockout.MaxFailedAccessAttempts = 5;
-    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-    options.Password.RequireDigit = true;
-    options.Password.RequireUppercase = true;
-    options.Password.RequireLowercase = true;
-    options.Password.RequiredLength = 6;
-    options.Password.RequireNonAlphanumeric = true;
-    options.User.RequireUniqueEmail = true;
-})
-            .AddEntityFrameworkStores<AppDbContext>()
-            .AddDefaultTokenProviders();
+// Add Repositories configuration
+RepositoriesConfiguration.Config(builder.Services);
 
 
 var app = builder.Build();
@@ -56,8 +37,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapRazorPages();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

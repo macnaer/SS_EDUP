@@ -18,6 +18,9 @@ builder.Services.AddControllersWithViews();
 // Add database context
 builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(connStr));
 
+// Add razor pages
+builder.Services.AddRazorPages();
+
 // Add user service
 builder.Services.AddTransient<UserService>();
 
@@ -56,8 +59,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapRazorPages();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

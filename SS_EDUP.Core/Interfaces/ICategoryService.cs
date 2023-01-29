@@ -10,7 +10,7 @@ namespace SS_EDUP.Core.Interfaces
     public interface ICategoryService
     {
         List<Category> GetAll();
-        List<Category> GetAllCategories();
+       
         Category? Get(int id);
         void Create(Category category);
         void Update(Category category);

@@ -10,7 +10,6 @@ namespace SS_EDUP.Core.Interfaces
     public interface ICourseService
     {
         List<Course> GetAll();
-        List<Course> GetAllCategories();
         Course? Get(int id);
         void Create(Course course);
         void Update(Course course);

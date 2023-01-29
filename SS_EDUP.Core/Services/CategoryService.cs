@@ -17,32 +17,43 @@ namespace SS_EDUP.Core.Services
         }
         public void Create(Category category)
         {
-            throw new NotImplementedException();
+            // create category in db
+           categoryRepo.Insert(category);
+           categoryRepo.Save(); // submit changes in db
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            var category = Get(id);
+
+            if (category == null) return; // exception
+
+            categoryRepo.Delete(id);
+            categoryRepo.Save();
         }
 
         public Category? Get(int id)
         {
-            throw new NotImplementedException();
+            if (id < 0) return null; // exception handling
+
+            var category = categoryRepo.GetByID(id);
+
+            if (category == null) return null; // exception handling
+
+            return category;
         }
 
         public List<Category> GetAll()
         {
-            throw new NotImplementedException();
+            return categoryRepo.Get().ToList();
         }
 
-        public List<Category> GetAllCategories()
-        {
-            throw new NotImplementedException();
-        }
+      
 
         public void Update(Category category)
         {
-            throw new NotImplementedException();
+            categoryRepo.Update(category);
+            categoryRepo.Save();
         }
     }
 }

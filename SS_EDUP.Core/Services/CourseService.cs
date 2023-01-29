@@ -17,32 +17,38 @@ namespace SS_EDUP.Core.Services
         }
         public void Create(Course course)
         {
-            throw new NotImplementedException();
+            courseRepo.Insert(course);
+            courseRepo.Save();
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+           var  course =  Get(id);
+            if (course != null)
+            {
+                courseRepo.Delete(id);
+                courseRepo.Save();
+            }
         }
 
         public Course? Get(int id)
         {
-            throw new NotImplementedException();
+            if(id <0)
+                return null;
+            var course = courseRepo.GetByID(id);
+            return course;
         }
 
         public List<Course> GetAll()
         {
-            throw new NotImplementedException();
+            return courseRepo.Get(includeProperties: "Category").ToList();
         }
 
-        public List<Course> GetAllCategories()
-        {
-            throw new NotImplementedException();
-        }
-
+       
         public void Update(Course course)
         {
-            throw new NotImplementedException();
+           courseRepo.Update(course);
+           courseRepo.Save();
         }
     }
 }

@@ -11,8 +11,8 @@ namespace SS_EDUP.Web.Configuration.Repositories
             // Add generic repository
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             // service configurations
-            services.AddScoped<ICategoryService, CategoryService>();
-            services.AddScoped<ICourseService, CourseService>();
+            services.AddScoped<ICategoriesService, CategoriesService>();
+            services.AddScoped<ICoursesService, CoursesService>();
         }
     }
 }

@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 
 namespace SS_EDUP.Core.Interfaces
 {
-    public interface ICourseService
+    public interface ICategoriesService
     {
-        List<Course> GetAll();
-        Course? Get(int id);
-        void Create(Course course);
-        void Update(Course course);
+        List<Category> GetAll();
+       
+        Category? Get(int id);
+        void Create(Category category);
+        void Update(Category category);
         void Delete(int id);
     }
 }

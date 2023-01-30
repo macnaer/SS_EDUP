@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace SS_EDUP.Core.Services
 {
-    public class CategoryService : ICategoryService
+    public class CategoriesService : ICategoriesService
     {
         private readonly IRepository<Category> categoryRepo;
-        public CategoryService(IRepository<Category> categoryRepo)
+        public CategoriesService(IRepository<Category> categoryRepo)
         {
            this.categoryRepo = categoryRepo;
         }

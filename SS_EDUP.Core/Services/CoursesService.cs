@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace SS_EDUP.Core.Services
 {
-    public class CourseService : ICourseService
+    public class CoursesService : ICoursesService
     {
         private readonly IRepository<Course> courseRepo;
-        public CourseService(IRepository<Course> courseRepo)
+        public CoursesService(IRepository<Course> courseRepo)
         {
             this.courseRepo = courseRepo;
         }

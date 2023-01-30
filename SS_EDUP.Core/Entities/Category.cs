@@ -16,6 +16,9 @@ namespace SS_EDUP.Core.Entities
         // ------------ Navigation Property
         public ICollection<Course> Courses { get; set; } = new HashSet<Course>();
 
-
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

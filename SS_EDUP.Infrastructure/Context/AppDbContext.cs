@@ -23,6 +23,15 @@ namespace SS_EDUP.Infrastructure.Context
             optionsBuilder.UseSqlServer(connectionString);
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.SeedCategories();
+            modelBuilder.SeedCourses();
+        }
         public DbSet<AppUser> AppUser { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Course> Courses { get; set; }
     }
 }

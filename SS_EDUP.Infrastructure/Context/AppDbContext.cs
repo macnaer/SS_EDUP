@@ -13,15 +13,8 @@ namespace SS_EDUP.Infrastructure.Context
 {
     public class AppDbContext : IdentityDbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-              .SetBasePath(Directory.GetCurrentDirectory())
-              .AddJsonFile("appsettings.json")
-              .Build();
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
-            optionsBuilder.UseSqlServer(connectionString);
-        }
+        public AppDbContext() : base() { }
+        public AppDbContext(DbContextOptions options) : base(options) { }
 
         public DbSet<AppUser> AppUser { get; set; }
     }

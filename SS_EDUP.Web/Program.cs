@@ -1,25 +1,44 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+using SS_EDUP.Core;
 using SS_EDUP.Core.Entities;
-using SS_EDUP.Core.Interfaces;
-using SS_EDUP.Core.Services;
+using SS_EDUP.Infrastructure;
 using SS_EDUP.Infrastructure.Context;
-using SS_EDUP.Infrastructure.Repository;
-using SS_EDUP.Web.Configuration.AutoMapper;
-using SS_EDUP.Web.Configuration.Repositories;
-using SS_EDUP.Web.Configuration.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add AutoMapper configuration 
-AutoMapperConfiguration.Config(builder.Services);
+string connStr = builder.Configuration.GetConnectionString("DefaultConnection");
+// Database context
+builder.Services.AddDbContext(connStr);
 
-//Add Services configuration
-ServicesConfiguration.Config(builder.Services);
+// Add Repositories
+builder.Services.AddRepositories();
 
-// Add Repositories configuration
-RepositoriesConfiguration.Config(builder.Services);
+// Service configurations
+builder.Services.AddCustomServices();
+
+// Add services to the container.
+builder.Services.AddControllersWithViews();
+
+// Add razor pages
+builder.Services.AddRazorPages();
+
+// Add Identity
+builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
+{
+    options.SignIn.RequireConfirmedEmail = true;
+    options.Lockout.MaxFailedAccessAttempts = 5;
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+    options.Password.RequireDigit = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequiredLength = 6;
+    options.Password.RequireNonAlphanumeric = true;
+    options.User.RequireUniqueEmail = true;
+})
+            .AddEntityFrameworkStores<AppDbContext>()
+            .AddDefaultTokenProviders();
 
 
 var app = builder.Build();

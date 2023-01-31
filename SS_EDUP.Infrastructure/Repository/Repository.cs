@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SS_EDUP.Infrastructure.Repository
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
+    internal class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
     {
         internal AppDbContext context;
         internal DbSet<TEntity> dbSet;

@@ -12,7 +12,7 @@ namespace SS_EDUP.Core
 {
     public static class ServiceExtensions
     {
-        public static void AddCustomServices(this IServiceCollection services)
+        public static void AddCoreServices(this IServiceCollection services)
         {
             // Add user service
             services.AddTransient<UserService>();

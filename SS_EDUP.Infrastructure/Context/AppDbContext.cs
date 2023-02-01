@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SS_EDUP.Infrastructure.Context
 {
-    public class AppDbContext : IdentityDbContext
+    internal class AppDbContext : IdentityDbContext
     {
         public AppDbContext() : base() { }
         public AppDbContext(DbContextOptions options) : base(options) { }

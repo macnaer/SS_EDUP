@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SS_EDUP.Web.Controllers
 {
-    
+    [Authorize]
     public class AdminController : Controller
     {
         
@@ -12,11 +12,14 @@ namespace SS_EDUP.Web.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         public IActionResult SignIn()
         {
             return View();
         }
 
+
+        [AllowAnonymous]
         public IActionResult SignUp()
         {
             return View();

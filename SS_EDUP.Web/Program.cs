@@ -4,6 +4,8 @@ using SS_EDUP.Core;
 using SS_EDUP.Core.Entities;
 using SS_EDUP.Infrastructure;
 using SS_EDUP.Infrastructure.Context;
+using SS_EDUP.Infrastructure.Initializers;
+
 var builder = WebApplication.CreateBuilder(args);
 
 string connStr = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -49,4 +51,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+
+await AppDbInitializer.SeedUsersAndRoles(app);
 app.Run();

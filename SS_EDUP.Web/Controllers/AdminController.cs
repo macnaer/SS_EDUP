@@ -1,25 +1,36 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace SS_EDUP.Web.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
+        
         public IActionResult Index()
         {
             return View();
         }
 
+        [AllowAnonymous]
         public IActionResult SignIn()
         {
             return View();
         }
 
+
+        [AllowAnonymous]
         public IActionResult SignUp()
         {
             return View();
         }
 
         public IActionResult Profile() { 
+            return View();
+        }
+
+        public IActionResult AccessDenied()
+        {
             return View();
         }
 

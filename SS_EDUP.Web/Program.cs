@@ -1,25 +1,29 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+using SS_EDUP.Core;
 using SS_EDUP.Core.Entities;
-using SS_EDUP.Core.Interfaces;
-using SS_EDUP.Core.Services;
+using SS_EDUP.Infrastructure;
 using SS_EDUP.Infrastructure.Context;
-using SS_EDUP.Infrastructure.Repository;
-using SS_EDUP.Web.Configuration.AutoMapper;
-using SS_EDUP.Web.Configuration.Repositories;
-using SS_EDUP.Web.Configuration.Services;
-
 var builder = WebApplication.CreateBuilder(args);
 
-// Add AutoMapper configuration 
-AutoMapperConfiguration.Config(builder.Services);
+string connStr = builder.Configuration.GetConnectionString("DefaultConnection");
+// Database context
+builder.Services.AddDbContext(connStr);
 
-//Add Services configuration
-ServicesConfiguration.Config(builder.Services);
+// Add Repositories
+builder.Services.AddRepositories();
 
-// Add Repositories configuration
-RepositoriesConfiguration.Config(builder.Services);
+// Add Infrastructure Service  configurations
+builder.Services.AddInfrastructureServices();
+
+// Add Core Service  configurations
+builder.Services.AddCoreServices();
+
+// Add services to the container.
+builder.Services.AddControllersWithViews();
+
+// Add razor pages
+builder.Services.AddRazorPages();
 
 
 var app = builder.Build();

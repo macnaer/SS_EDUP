@@ -1,30 +1,27 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using SS_EDUP.Core.Entities;
-using SS_EDUP.Core.Services;
+using SS_EDUP.Core.Interfaces;
 using SS_EDUP.Infrastructure.Context;
+using SS_EDUP.Infrastructure.Repository;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace SS_EDUP.Web.Configuration.Services
+namespace SS_EDUP.Infrastructure
 {
-    public class ServicesConfiguration
+    public static class ServiceExtentions
     {
-        public static void Config(IServiceCollection services)
+        public static void AddDbContext(this IServiceCollection services, string connectionString)
         {
+            services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(connectionString));
+        }
 
-            // Add dababase context
-            services.AddDbContext<AppDbContext>();
-
-            // Add services to the container.
-            services.AddControllersWithViews();
-
-            // Add razor pages
-            services.AddRazorPages();
-
-            // Add user service
-            services.AddTransient<UserService>();
-
-            // Add email service
-            services.AddTransient<EmailService>();
-
+        public static void AddInfrastructureServices(this IServiceCollection services)
+        {
             // Add Identity
             services.AddIdentity<AppUser, IdentityRole>(options =>
             {
@@ -40,8 +37,10 @@ namespace SS_EDUP.Web.Configuration.Services
             })
                         .AddEntityFrameworkStores<AppDbContext>()
                         .AddDefaultTokenProviders();
-
-
+        } 
+        public static void AddRepositories(this IServiceCollection services)
+        {
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         }
     }
 }

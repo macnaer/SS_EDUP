@@ -45,22 +45,28 @@
                     </div>
                     <div class="card-body">
                         <form role="form text-left" method="post" asp-controller="Admin" asp-action="SignUp">
-                            @Html.ValidationSummary()
+                          @*  <span class="text-danger">@Html.ValidationSummary()</span>*@
                             <div class="mb-3">
                                 <input asp-for="Name" type="text" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="email-addon" >
+                                <span class="text-danger" asp-validation-for="Name"></span>
                             </div>
                             <div class="mb-3">
                                 <input asp-for="Surname" type="text" class="form-control" placeholder="Surname" aria-label="Surname" aria-describedby="email-addon">
+                                <span class="text-danger" asp-validation-for="Surname"></span>
+
                             </div>
                             <div class="mb-3">
                                 <input asp-for="Email" type="email" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="email-addon">
+                                <span class="text-danger" asp-validation-for="Email"></span>
                             </div>
                             <div class="mb-3">
                                 <input asp-for="Password" type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="password-addon">
+                                <span class="text-danger" asp-validation-for="Password"></span>
                             </div>
 
                             <div class="mb-3">
                                 <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm Password" aria-label="Confirm Password" aria-describedby="password-addon">
+                                <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
                             </div>
                            
                             <div class="text-center">
@@ -74,8 +80,3 @@
         </div>
     </div>
 </section>
-@*@section Scripts {
-    @{
-        <partial name="_ValidationScriptsPartial.cshtml" />
-    }
-}*@

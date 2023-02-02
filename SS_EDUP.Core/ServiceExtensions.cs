@@ -20,6 +20,12 @@ namespace SS_EDUP.Core
             // Add email service
             services.AddTransient<EmailService>();
 
+            // Add Course service
+            services.AddTransient<CoursesService>();
+
+            // Add Category service
+            services.AddTransient<CategoriesService>();
+
         }
     }
 }

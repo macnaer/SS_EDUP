@@ -8,12 +8,12 @@
     <div class="row">
         <div class="col-3">
             <ul class="nav flex-column">
-                 @foreach (var category in ViewBag.CategoryList)
+                @* @foreach (var category in ViewBag.CategoryList)
                 {
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" asp-action="Index" asp-route-category_id="@category.Id">@category</a>
                 </li>
-                }
+                }*@
             </ul>
         </div>
         <div class="col-9">
@@ -28,7 +28,7 @@
                     </nav>
                 </div>
                 <div class="row">
-                    @foreach(var course in Model){
+                    @*@foreach(var course in Model){
                     <div class="card" style="width: 18rem;">
                         <img src="@course.ImagePath" class="card-img-top" alt="...">
                         <div class="card-body">
@@ -38,7 +38,7 @@
                             <a href="#" class="btn btn-primary">Start learning</a>
                         </div>
                     </div>
-                    }
+                    }*@
                 </div>
                 <div class="row m-2">
                     <nav aria-label="...">

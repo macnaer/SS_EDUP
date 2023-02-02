@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using SS_EDUP.Core.AutoMapper;
 using SS_EDUP.Core.Entities;
 using SS_EDUP.Core.Services;
 using System;
@@ -26,6 +27,12 @@ namespace SS_EDUP.Core
             // Add Category service
             services.AddTransient<CategoriesService>();
 
+        }
+
+        public static void AddMapping(this IServiceCollection services)
+        {
+            // Add user mapping
+            services.AddAutoMapper(typeof(AutoMapperUserProfile));
         }
     }
 }

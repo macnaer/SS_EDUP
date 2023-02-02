@@ -24,6 +24,9 @@ builder.Services.AddCoreServices();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// Add auto mapper
+builder.Services.AddMapping();
+
 // Add razor pages
 builder.Services.AddRazorPages();
 

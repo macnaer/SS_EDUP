@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SS_EDUP.Core.Validation.User;
+using SS_EDUP.Infrastructure.ViewModels.User;
 
 namespace SS_EDUP.Web.Controllers
 {
@@ -23,6 +25,22 @@ namespace SS_EDUP.Web.Controllers
         public IActionResult SignUp()
         {
             return View();
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> SignUp(RegisterUserVM model)
+        {
+            var validator = new RegisterUserValidation();
+            var validationResult = await validator.ValidateAsync(model);
+            if(validationResult.IsValid)
+            {
+                return View();
+            }
+            else
+            {
+                return View(model);
+            }
         }
 
         public IActionResult Profile() { 

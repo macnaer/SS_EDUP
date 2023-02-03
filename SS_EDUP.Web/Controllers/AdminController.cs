@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SS_EDUP.Core.DTO_s;
+using SS_EDUP.Core.Services;
 using SS_EDUP.Core.Validation.User;
 using SS_EDUP.Infrastructure.ViewModels.User;
 
@@ -8,7 +10,14 @@ namespace SS_EDUP.Web.Controllers
     [Authorize]
     public class AdminController : Controller
     {
-        
+
+        private readonly UserService _userService;
+
+        public AdminController(UserService userService)
+        {
+            _userService = userService;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -18,6 +27,26 @@ namespace SS_EDUP.Web.Controllers
         public IActionResult SignIn()
         {
             return View();
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> SignIn(LoginUserDto model)
+        {
+            var valdator = new LoginUserValidation();
+            var validationresult = await valdator.ValidateAsync(model);
+            if (validationresult.IsValid)
+            {
+                var result = await _userService.LoginUserAsync(model);
+                if (result.Success)
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
+                // write code
+                ViewBag.AuthError = result.Message;
+                return View(model);
+            }
+            return View(model);
         }
 
 
@@ -31,16 +60,18 @@ namespace SS_EDUP.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> SignUp(RegisterUserVM model)
         {
-            var validator = new RegisterUserValidation();
-            var validationResult = await validator.ValidateAsync(model);
-            if(validationResult.IsValid)
-            {
-                return View();
-            }
-            else
-            {
-                return View(model);
-            }
+            //var validator = new RegisterUserValidation();
+            //var validationResult = await validator.ValidateAsync(model);
+            //if(validationResult.IsValid)
+            //{
+            //    var result = _userService.RegisterUserAsync(model);
+            //    return View(result);
+            //}
+            //else
+            //{
+            //    return View(model);
+            //}
+            return View();
         }
 
         public IActionResult Profile() { 

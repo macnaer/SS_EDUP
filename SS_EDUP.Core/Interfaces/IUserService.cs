@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using SS_EDUP.Core.DTO_s;
 using SS_EDUP.Core.Entities;
 using SS_EDUP.Core.Services;
+using SS_EDUP.Core.ViewModels.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +14,6 @@ namespace SS_EDUP.Core.Interfaces
     {
         Task<AppUser> GetUserByIdAsync(string id);
         Task<ServiceResponse> RegisterUserAsync(AppUser model, string password);
-        Task<ServiceResponse> LoginUserAsync(LoginUserDto model);
+        Task<ServiceResponse> LoginUserAsync(LoginUserVM model);
     }
 }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SS_EDUP.Core.DTO_s
+namespace SS_EDUP.Core.ViewModels.User
 {
-    public class LoginUserDto
+    public class LoginUserVM
     {
         public string Email { get; set; }
         public string Password { get; set; }

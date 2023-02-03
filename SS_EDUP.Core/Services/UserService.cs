@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using SS_EDUP.Core.DTO_s;
 using SS_EDUP.Core.Entities;
 using SS_EDUP.Core.Interfaces;
+using SS_EDUP.Core.ViewModels.User;
 using SS_EDUP.Infrastructure.ViewModels.User;
 using System;
 using System.Collections.Generic;
@@ -30,7 +30,7 @@ namespace SS_EDUP.Core.Services
             throw new NotImplementedException();
         }
 
-        public async Task<ServiceResponse> LoginUserAsync(LoginUserDto model)
+        public async Task<ServiceResponse> LoginUserAsync(LoginUserVM model)
         {
             AppUser user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)

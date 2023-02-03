@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SS_EDUP.Core.DTO_s;
 using SS_EDUP.Core.Services;
 using SS_EDUP.Core.Validation.User;
+using SS_EDUP.Core.ViewModels.User;
 using SS_EDUP.Infrastructure.ViewModels.User;
 
 namespace SS_EDUP.Web.Controllers
@@ -31,7 +31,7 @@ namespace SS_EDUP.Web.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> SignIn(LoginUserDto model)
+        public async Task<IActionResult> SignIn(LoginUserVM model)
         {
             var valdator = new LoginUserValidation();
             var validationresult = await valdator.ValidateAsync(model);

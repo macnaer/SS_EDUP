@@ -2,6 +2,7 @@
 @model RegisterUserVM
 @{
     Layout = "~/Views/Shared/_authLayout.cshtml";
+    var roles = new List<string> { "Administrators", "Teachers", "Students" };
 }
 <section class="min-vh-100 mb-8">
     <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg" style="background-image: url('../assets/img/curved-images/curved14.jpg');">
@@ -45,9 +46,12 @@
                     </div>
                     <div class="card-body">
                         <form role="form text-left" method="post" asp-controller="Admin" asp-action="SignUp">
-                          @*  <span class="text-danger">@Html.ValidationSummary()</span>*@
+                            @if (@ViewBag.AuthError != null)
+                            {
+                                <span class="text-danger">@ViewBag.AuthError</span>
+                            }
                             <div class="mb-3">
-                                <input asp-for="Name" type="text" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="email-addon" >
+                                <input asp-for="Name" type="text" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="email-addon">
                                 <span class="text-danger" asp-validation-for="Name"></span>
                             </div>
                             <div class="mb-3">
@@ -68,7 +72,9 @@
                                 <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm Password" aria-label="Confirm Password" aria-describedby="password-addon">
                                 <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
                             </div>
-                           
+                            <div class="mb-3">
+                                @Html.DropDownListFor(x => x.Role, roles.Select(s => new SelectListItem{Text = s, Value = s}), "Roles", null)
+                            </div>
                             <div class="text-center">
                                 <button type="submit" class="btn bg-gradient-dark w-100 my-4 mb-2">Sign up</button>
                             </div>

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SS_EDUP.Core.Services;
 using SS_EDUP.Core.Validation.User;
@@ -59,19 +60,36 @@ namespace SS_EDUP.Web.Controllers
         [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> SignUp(RegisterUserVM model)
+        {  
+            var validator = new RegisterUserValidation();
+            var validationResult = await validator.ValidateAsync(model);
+            if (validationResult.IsValid)
+            {
+                var result = await _userService.RegisterUserAsync(model);
+                if (result.Success)
+                {
+                    return RedirectToAction("SignIn", "Admin");
+                }
+                ViewBag.AuthError = result.Message;
+                return View(model);
+            }
+            return View(model);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("ConfirmEmail")]
+        public async Task<IActionResult> ConfirmEmail([FromBody]string userId, string token)
         {
-            //var validator = new RegisterUserValidation();
-            //var validationResult = await validator.ValidateAsync(model);
-            //if(validationResult.IsValid)
-            //{
-            //    var result = _userService.RegisterUserAsync(model);
-            //    return View(result);
-            //}
-            //else
-            //{
-            //    return View(model);
-            //}
-            return View();
+            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(token))
+                return NotFound();
+
+            var result = await _userService.ConfirmEmailAsync(userId, token);
+
+            if (result.Success)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            return BadRequest(result);
         }
 
         public IActionResult Profile() { 
@@ -87,5 +105,17 @@ namespace SS_EDUP.Web.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            var result = await _userService.LogoutUserAsync();
+            if(result.Success)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return RedirectToAction("Index", "Admin");
+        }
+
     }
 }

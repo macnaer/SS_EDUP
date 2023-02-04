@@ -12,5 +12,6 @@ namespace SS_EDUP.Core.Services
         public bool Success { get; set; }
         public object Payload { get; set; }
         public IEnumerable<string> Errors { get; set; }
+
     }
 }

@@ -17,7 +17,8 @@ namespace SS_EDUP.Core.Validation.User
             RuleFor(r => r.Email).EmailAddress().NotEmpty();
             RuleFor(r => r.Password).NotEmpty().MinimumLength(6);
             RuleFor(r => r.ConfirmPassword).NotEmpty().MinimumLength(6);
-            //RuleFor(r => r.Role).NotEmpty();
+            RuleFor(x => x.ConfirmPassword).Equal(x => x.Password);
+            RuleFor(r => r.Role).NotEmpty();
         }
     }
 }

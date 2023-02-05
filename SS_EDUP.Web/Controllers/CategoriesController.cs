@@ -26,11 +26,51 @@ namespace SS_EDUP.Web.Controllers
 
             return View(_categoriesService.GetAll());
         }
-        public IActionResult Create(CategoryDto category) {
 
+
+        //GET
+        public IActionResult Create()
+        {
             return View();
         }
 
+            //POST
+
+        [HttpPost]
+        public IActionResult Create(CategoryDto categoryDto) {
+            _categoriesService.Create(categoryDto);
+            return RedirectToAction(nameof(Index));
+        }
+
+        // GET: ~/Categories/Edit/{id}
+        public IActionResult Edit(int id)
+        {
+            var categoryDto = _categoriesService.Get(id);
+
+            if (categoryDto == null) return NotFound();
+
+   
+            return View(categoryDto);
+        }
+
+        // POST: ~/Categories/Edit
+        [HttpPost]
+        public IActionResult Edit(CategoryDto categoryDto) // 1-FromForm, 2-FromRoute, 
+        {
+            // TODO: add validations
+
+            _categoriesService.Update(categoryDto);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // GET: ~/Categories/Delete/{id}
+        public IActionResult Delete(int id)
+        {
+            _categoriesService.Delete(id);
+
+            return RedirectToAction(nameof(Index));
+        }
 
 
     }

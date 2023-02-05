@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using SS_EDUP.Core.AutoMapper;
 using SS_EDUP.Core.Entities;
+using SS_EDUP.Core.Interfaces;
 using SS_EDUP.Core.Services;
 using SS_EDUP.Infrastructure.ViewModels.User;
 using System;
@@ -44,5 +45,14 @@ namespace SS_EDUP.Core
             // Add user mapping
             services.AddAutoMapper(typeof(AutoMapperUserProfile));
         }
+
+        public static void AddCategoryAndProductServices(this IServiceCollection services)
+        {
+            services.AddScoped<ICategoriesService, CategoriesService>();
+            services.AddScoped<ICoursesService, CoursesService>();
+        }
+
+
+
     }
 }

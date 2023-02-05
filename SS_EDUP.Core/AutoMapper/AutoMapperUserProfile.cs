@@ -18,7 +18,8 @@ namespace SS_EDUP.Core.AutoMapper
             CreateMap<RegisterUserVM, AppUser>();
             CreateMap<AppUser, AppUserDto>();
             CreateMap<AppUserDto, AppUser>().ForMember(dst => dst.UserName, act => act.MapFrom(src => src.Email));
-            CreateMap<Category, CategoryDto>().ReverseMap();
+            CreateMap<Category, CategoryDto>();
+            CreateMap<CategoryDto, Category>();
 
         }
     }

@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SS_EDUP.Core.DTO_s;
 using SS_EDUP.Core.Entities;
 using SS_EDUP.Core.Interfaces;
+using SS_EDUP.Core.Services;
 using SS_EDUP.Infrastructure.Context;
 using SS_EDUP.Infrastructure.Repository;
 using System;
@@ -45,5 +46,12 @@ namespace SS_EDUP.Infrastructure
         {
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         }
+
+        public static void AddCustomServices(this IServiceCollection services)
+        {
+            services.AddScoped<ICategoriesService, CategoriesService>();
+            services.AddScoped<ICoursesService, CoursesService>();
+        }
+
     }
 }

@@ -1,4 +1,4 @@
-﻿using SS_EDUP.Core.Entities;
+﻿using SS_EDUP.Core.DTO_s;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +9,11 @@ namespace SS_EDUP.Core.Interfaces
 {
     public interface ICategoriesService
     {
-        List<Category> GetAll();
+        List<CategoryDto> GetAll();
        
-        Category? Get(int id);
-        void Create(Category category);
-        void Update(Category category);
+        CategoryDto? Get(int id);
+        void Create(CategoryDto categoryDto);
+        void Update(CategoryDto categoryDto);
         void Delete(int id);
     }
 }

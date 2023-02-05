@@ -12,9 +12,9 @@ namespace SS_EDUP.Core.Services
 {
     public class CategoriesService : ICategoriesService
     {
-
-        private readonly IRepository<Category> _categoryRepo;
         private readonly IMapper _mapper;
+        private readonly IRepository<Category> _categoryRepo;
+       
 
         public CategoriesService(IRepository<Category> categoryRepo, IMapper mapper)
         {

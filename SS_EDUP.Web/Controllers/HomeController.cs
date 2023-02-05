@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SS_EDUP.Core.Interfaces;
 using SS_EDUP.Web.Models;
 using System.Diagnostics;
 
@@ -8,7 +9,8 @@ namespace SS_EDUP.Web.Controllers
     {
 
         private readonly ILogger<HomeController> _logger;
-
+        private readonly ICategoriesService _categoriesService;
+        private readonly ICoursesService _courseService;
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;

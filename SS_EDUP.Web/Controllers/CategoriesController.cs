@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SS_EDUP.Core.DTO_s;
 using SS_EDUP.Core.Entities;
 using SS_EDUP.Core.Interfaces;
 using SS_EDUP.Infrastructure.Context;
@@ -18,6 +19,19 @@ namespace SS_EDUP.Web.Controllers
         public CategoriesController(ICategoriesService categoriesService)
         {
             _categoriesService = categoriesService;
-        }  
+        }
+
+        public IActionResult Index()
+        {
+
+            return View(_categoriesService.GetAll());
+        }
+        public IActionResult Create(CategoryDto category) {
+
+            return View();
+        }
+
+
+
     }
 }

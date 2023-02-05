@@ -1,4 +1,6 @@
-﻿using SS_EDUP.Core.Entities;
+﻿using AutoMapper;
+using SS_EDUP.Core.DTO_s;
+using SS_EDUP.Core.Entities;
 using SS_EDUP.Core.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,50 +12,55 @@ namespace SS_EDUP.Core.Services
 {
     public class CategoriesService : ICategoriesService
     {
-        private readonly IRepository<Category> categoryRepo;
-        public CategoriesService(IRepository<Category> categoryRepo)
+
+        private readonly IRepository<Category> _categoryRepo;
+        private readonly IMapper _mapper;
+
+        public CategoriesService(IRepository<Category> categoryRepo, IMapper mapper)
         {
-           this.categoryRepo = categoryRepo;
+           this._categoryRepo = categoryRepo;
+            this._mapper = mapper;
         }
-        public void Create(Category category)
+        public void Create(CategoryDto categoryDto)
         {
             // create category in db
-           categoryRepo.Insert(category);
-           categoryRepo.Save(); // submit changes in db
+           _categoryRepo.Insert(_mapper.Map<Category>(categoryDto));
+           _categoryRepo.Save(); // submit changes in db
         }
 
         public void Delete(int id)
         {
-            var category = Get(id);
+            var categoryDto = Get(id);
 
-            if (category == null) return; // exception
+            if (categoryDto == null) return; // exception
 
-            categoryRepo.Delete(id);
-            categoryRepo.Save();
+            _categoryRepo.Delete(id);
+            _categoryRepo.Save();
         }
 
-        public Category? Get(int id)
+        public CategoryDto? Get(int id)
         {
             if (id < 0) return null; // exception handling
 
-            var category = categoryRepo.GetByID(id);
+            var category = _categoryRepo.GetByID(id);
 
             if (category == null) return null; // exception handling
 
-            return category;
+            return _mapper.Map<CategoryDto>(category);
         }
 
-        public List<Category> GetAll()
+        public List<CategoryDto> GetAll()
         {
-            return categoryRepo.Get().ToList();
+            var result = _categoryRepo.Get().ToList();
+            return _mapper.Map<List<CategoryDto>>(result);
         }
 
       
 
-        public void Update(Category category)
+        public void Update(CategoryDto categoryDto)
         {
-            categoryRepo.Update(category);
-            categoryRepo.Save();
+            _categoryRepo.Update(_mapper.Map<Category>(categoryDto));
+            _categoryRepo.Save();
         }
     }
 }

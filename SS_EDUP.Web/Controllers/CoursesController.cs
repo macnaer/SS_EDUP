@@ -14,6 +14,7 @@ namespace SS_EDUP.Web.Controllers
     public class CoursesController : Controller
     {
         private readonly ICoursesService _courseService;
+        private readonly ICategoriesService _categoriesService; 
 
         public CoursesController(ICoursesService courseService)
         {

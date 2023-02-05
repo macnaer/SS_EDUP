@@ -1,4 +1,6 @@
-﻿using SS_EDUP.Core.Entities;
+﻿using AutoMapper;
+using SS_EDUP.Core.DTO_s;
+using SS_EDUP.Core.Entities;
 using SS_EDUP.Core.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,15 +12,21 @@ namespace SS_EDUP.Core.Services
 {
     public class CoursesService : ICoursesService
     {
-        private readonly IRepository<Course> courseRepo;
-        public CoursesService(IRepository<Course> courseRepo)
+        private readonly IRepository<Course> _courseRepo;
+        private readonly IRepository<Category> _categoryRepo;
+        private readonly IMapper _mapper;
+        public CoursesService(IRepository<Course> courseRepo, 
+            IRepository<Category> categoryRepo, 
+            IMapper mapper)
         {
-            this.courseRepo = courseRepo;
+            this._courseRepo = courseRepo;
+            this._categoryRepo = categoryRepo;
+            this._mapper = mapper;
         }
-        public void Create(Course course)
+        public void Create(CourseDto courseDto)
         {
-            courseRepo.Insert(course);
-            courseRepo.Save();
+            _courseRepo.Insert(_mapper.Map<Course>(courseDto));
+            _courseRepo.Save();
         }
 
         public void Delete(int id)
@@ -26,29 +34,30 @@ namespace SS_EDUP.Core.Services
            var  course =  Get(id);
             if (course != null)
             {
-                courseRepo.Delete(id);
-                courseRepo.Save();
+                _courseRepo.Delete(id);
+                _courseRepo.Save();
             }
         }
 
-        public Course? Get(int id)
+        public CourseDto? Get(int id)
         {
             if(id <0)
                 return null;
-            var course = courseRepo.GetByID(id);
-            return course;
+            var course = _courseRepo.GetByID(id);
+            return _mapper.Map<CourseDto>(course);
         }
 
-        public List<Course> GetAll()
+        public List<CourseDto> GetAll()
         {
-            return courseRepo.Get(includeProperties: "Category").ToList();
+            return _mapper.Map< List<CourseDto> >(_courseRepo.Get(includeProperties: "Category").ToList());
         }
 
        
-        public void Update(Course course)
+        public void Update(CourseDto courseDto)
         {
-           courseRepo.Update(course);
-           courseRepo.Save();
+           _courseRepo.Update(_mapper.Map<Course>(courseDto));
+           _courseRepo.Save();
         }
     }
 }
+

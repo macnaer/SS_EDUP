@@ -88,6 +88,74 @@ namespace SS_EDUP.Core.Services
             };
         }
 
+        public async Task<ServiceResponse> ForgotPasswordAsync(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                return new ServiceResponse
+                {
+                    Message = "No user associated with email",
+                    Success = false
+                };
+            }
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var encodedToken = Encoding.UTF8.GetBytes(token);
+            var validToken = WebEncoders.Base64UrlEncode(encodedToken);
+
+            string url = $"{_configuration["HostSettings:URL"]}/Admin/ResetPassword?email={email}&token={validToken}";
+            string emailBody = "<h1>Follow the instructions to reset your password</h1>" + $"<p>To reset your password <a href='{url}'>Click here</a></p>";
+            await _emailService.SendEmailAsync(email, "Fogot password", emailBody);
+
+            return new ServiceResponse
+            {
+                Success = true,
+                Message = $"Reset password for {_configuration["HostSettings:URL"]} has been sent to the email successfully!"
+            };
+        }
+
+        public async Task<ServiceResponse> ResetPasswordAsync(ResetPasswordVM model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                return new ServiceResponse
+                {
+                    Success = false,
+                    Message = "No user associated with email",
+                };
+            }
+
+            if (model.NewPassword != model.ConfirmPassword)
+            {
+                return new ServiceResponse
+                {
+                    Success = false,
+                    Message = "Password doesn't match its confirmation",
+                };
+            }
+
+            var decodedToken = WebEncoders.Base64UrlDecode(model.Token);
+            string normalToken = Encoding.UTF8.GetString(decodedToken);
+
+            var result = await _userManager.ResetPasswordAsync(user, normalToken, model.NewPassword);
+            if (result.Succeeded)
+            {
+                return new ServiceResponse
+                {
+                    Message = "Password has been reset successfully!",
+                    Success = true,
+                };
+            }
+            return new ServiceResponse
+            {
+                Message = "Something went wrong",
+                Success = false,
+                Errors = result.Errors.Select(e => e.Description),
+            };
+        }
+
         public async Task<ServiceResponse> LogoutUserAsync()
         {
             await _signInManager.SignOutAsync();

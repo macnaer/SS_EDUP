@@ -23,7 +23,8 @@ namespace SS_EDUP.Core.AutoMapper
             CreateMap<CategoryDto, Category>();
             CreateMap<Course, CourseDto>().ForMember(
                 dst => dst.CategoryName,
-                act => act.MapFrom(x => GetCategoryName(x))); //?
+                act => act.MapFrom(x => GetCategoryName(x))); 
+            CreateMap<CourseDto, Course>();
 
         }
         static string GetCategoryName(Course course)

@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using SS_EDUP.Core.AutoMapper;
 using SS_EDUP.Core.Entities;
 using SS_EDUP.Core.Services;
+using SS_EDUP.Infrastructure.ViewModels.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +23,26 @@ namespace SS_EDUP.Core
             // Add email service
             services.AddTransient<EmailService>();
 
+            // Add Course service
+            services.AddTransient<CoursesService>();
+
+            // Add Category service
+            services.AddTransient<CategoriesService>();
+
+            // Add Fluent validation
+            services.AddFluentValidation(x =>
+            {
+                x.DisableDataAnnotationsValidation = true;
+                x.ImplicitlyValidateChildProperties = true;
+                x.RegisterValidatorsFromAssemblyContaining<RegisterUserVM>();
+            });
+
+        }
+
+        public static void AddMapping(this IServiceCollection services)
+        {
+            // Add user mapping
+            services.AddAutoMapper(typeof(AutoMapperUserProfile));
         }
     }
 }

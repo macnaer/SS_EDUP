@@ -4,6 +4,8 @@ using SS_EDUP.Core;
 using SS_EDUP.Core.Entities;
 using SS_EDUP.Infrastructure;
 using SS_EDUP.Infrastructure.Context;
+using SS_EDUP.Infrastructure.Initializers;
+
 var builder = WebApplication.CreateBuilder(args);
 
 string connStr = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -21,6 +23,9 @@ builder.Services.AddCoreServices();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Add auto mapper
+builder.Services.AddMapping();
 
 // Add razor pages
 builder.Services.AddRazorPages();
@@ -49,4 +54,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+
+await AppDbInitializer.SeedUsersAndRoles(app);
 app.Run();

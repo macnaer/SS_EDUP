@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
@@ -175,7 +176,7 @@ namespace SS_EDUP.Core.Services
             var encodedEmailToken = Encoding.UTF8.GetBytes(token);
             var validEmailToken = WebEncoders.Base64UrlEncode(encodedEmailToken);
 
-            string url = $"{_configuration["HostSettings:URL"]}/api/User/ConfirmEmail?userid={newUser.Id}&token={validEmailToken}";
+            string url = $"{_configuration["HostSettings:URL"]}/Admin/ConfirmEmail?userid={newUser.Id}&token={validEmailToken}";
 
             string emailBody = $"<h1>Confirm your email</h1> <a href='{url}'>Confirm now</a>";
             await _emailService.SendEmailAsync(newUser.Email, "Email confirmation.", emailBody);

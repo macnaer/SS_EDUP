@@ -1,6 +1,9 @@
 ﻿using FluentValidation;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using SS_EDUP.Core.Entities;
 using SS_EDUP.Core.Services;
 using SS_EDUP.Core.Validation.User;
 using SS_EDUP.Core.ViewModels.User;
@@ -25,13 +28,19 @@ namespace SS_EDUP.Web.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult SignIn()
+        public async Task<IActionResult> SignIn()
         {
+            var user = HttpContext.User.Identity.IsAuthenticated;
+            if (user)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
         [AllowAnonymous]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> SignIn(LoginUserVM model)
         {
             var valdator = new LoginUserValidation();
@@ -54,11 +63,17 @@ namespace SS_EDUP.Web.Controllers
         [AllowAnonymous]
         public IActionResult SignUp()
         {
+            var user = HttpContext.User.Identity.IsAuthenticated;
+            if(user)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
         [AllowAnonymous]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> SignUp(RegisterUserVM model)
         {  
             var validator = new RegisterUserValidation();
@@ -77,8 +92,7 @@ namespace SS_EDUP.Web.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("ConfirmEmail")]
-        public async Task<IActionResult> ConfirmEmail([FromBody]string userId, string token)
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
             if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(token))
                 return NotFound();
@@ -87,9 +101,16 @@ namespace SS_EDUP.Web.Controllers
 
             if (result.Success)
             {
-                return RedirectToAction("Index", "Admin");
+                return RedirectToAction("ConfirmEmailPage", "Admin");
             }
-            return BadRequest(result);
+            return View(result);
+        }
+
+
+        [AllowAnonymous]
+        public IActionResult ConfirmEmailPage()
+        {
+            return View();
         }
 
         public IActionResult Profile() { 

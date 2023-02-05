@@ -38,6 +38,8 @@ namespace SS_EDUP.Infrastructure
             })
                         .AddEntityFrameworkStores<AppDbContext>()
                         .AddDefaultTokenProviders();
+
+            services.ConfigureApplicationCookie(opts => opts.LoginPath = "/Admin/SignIn");
         } 
         public static void AddRepositories(this IServiceCollection services)
         {

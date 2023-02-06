@@ -139,8 +139,14 @@ namespace SS_EDUP.Web.Controllers
             }
         }
 
-        public IActionResult Profile()
+        public async Task<IActionResult> Profile()
         {
+            var userId = HttpContext.User.Identity.GetUserId();
+            var result = await _userService.GetUserProfileAsync(userId);
+            if (result.Success)
+            {
+                return View(result.Payload);
+            }
             return View();
         }
 

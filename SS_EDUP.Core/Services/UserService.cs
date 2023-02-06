@@ -249,5 +249,26 @@ namespace SS_EDUP.Core.Services
             string emailBody = $"<h1>Confirm your email</h1> <a href='{url}'>Confirm now</a>";
             await _emailService.SendEmailAsync(newUser.Email, "Email confirmation.", emailBody);
         }
+
+        public async Task<ServiceResponse> GetUserProfileAsync(string Id)
+        {
+            var user = await _userManager.FindByIdAsync(Id);
+            if(user == null)
+            {
+                return new ServiceResponse
+                {
+                    Success = false,
+                    Message = "User not found.",
+                };
+            }
+
+            var mappesUser = _mapper.Map<AppUser, UserProfileVM>(user);
+            return new ServiceResponse
+            {
+                Success = true,
+                Message = "User profile loaded.",
+                Payload = mappesUser
+            };
+        }
     }
 }

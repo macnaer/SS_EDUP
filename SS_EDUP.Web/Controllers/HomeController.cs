@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SS_EDUP.Core.Interfaces;
+using SS_EDUP.Core.DTO_s;
 using SS_EDUP.Web.Models;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using SS_EDUP.Core.Services;
 
 namespace SS_EDUP.Web.Controllers
 {
@@ -8,19 +12,25 @@ namespace SS_EDUP.Web.Controllers
     {
 
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ICategoriesService _categoriesService;
+        private readonly ICoursesService _coursesService;
+        public HomeController(ILogger<HomeController> logger, 
+                             ICategoriesService categoriesService,
+                             ICoursesService coursesService)
         {
             _logger = logger;
+            _categoriesService = categoriesService;
+            _coursesService = coursesService;
         }
 
         public IActionResult Index()
         {
-
-            return View();
+            List<CategoryDto> categories = _categoriesService.GetAll();
+            categories.Insert(0, new CategoryDto { Id = 0, Name = "All", Description = "All" });
+            ViewBag.ListCategories = categories;
+            return View(_coursesService.GetAll());
         }
-  
-
+ 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

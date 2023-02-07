@@ -23,21 +23,10 @@ namespace SS_EDUP.Web.Controllers
             _coursesService = coursesService;
         }
 
-        private void LoadCategories()// ??
-        {
-            ViewBag.CategoriesList = new SelectList(
-                _categoriesService.GetAll(),
-                nameof(CategoryDto.Id),
-                nameof(CategoryDto.Name)
-                );
-
-        }
         public IActionResult Index()
         {
-            LoadCategories();
             List<CategoryDto> categories = _categoriesService.GetAll();
             categories.Insert(0, new CategoryDto { Id = 0, Name = "All", Description = "All" });
-            ViewData["ListCategories"] = categories;
             ViewBag.ListCategories = categories;
             return View(_coursesService.GetAll());
         }

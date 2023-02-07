@@ -8,14 +8,13 @@ namespace SS_EDUP.Core.ViewModels.User
 {
     public class UserProfileVM
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
-        public string Email { get; set; }
+        public string Id { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;    
+        public string Surname { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
         public bool EmailConfirmed { get; set; }
-        public string PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; } = string.Empty;
         public bool IsLocked { get; set; }
-
-
+        public string Role { get; set; } = string.Empty;
     }
 }

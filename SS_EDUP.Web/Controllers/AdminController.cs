@@ -52,7 +52,6 @@ namespace SS_EDUP.Web.Controllers
                 {
                     return RedirectToAction("Index", "Admin");
                 }
-                // write code
                 ViewBag.AuthError = result.Message;
                 return View(model);
             }
@@ -122,6 +121,7 @@ namespace SS_EDUP.Web.Controllers
 
         [AllowAnonymous]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ForgotPassword([FromForm] string email)
         {
 
@@ -161,6 +161,7 @@ namespace SS_EDUP.Web.Controllers
             
         [AllowAnonymous]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPassword([FromForm] ResetPasswordVM model)
         {
             var validator = new ResetPasswordValidation();
@@ -202,5 +203,34 @@ namespace SS_EDUP.Web.Controllers
             return RedirectToAction("Index", "Admin");
         }
 
+
+        [HttpPost]
+        public async Task<IActionResult> UserSettings(UpdateProfileVM model)
+        {
+            var validator = new UpdateProfileValidation();
+            var validationResult = await validator.ValidateAsync(model);
+            if (validationResult.IsValid)
+            {
+                
+                var result = await _userService.UpdateProfileAsync(model);
+                if (result.Success)
+                {
+                    return View(model);
+                }
+                ViewBag.AuthError = result.Message;
+                return View(model);
+            }
+            return View(model);
+        }
+        public async Task<IActionResult> UserSettings()
+        {
+            var userId = HttpContext.User.Identity.GetUserId();
+            var result = await _userService.GetUserForSettingsAsync(userId);
+            if (result.Success)
+            {
+                return View(result.Payload);
+            }
+            return View();
+        }
     }
 }

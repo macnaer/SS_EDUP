@@ -21,7 +21,8 @@ namespace SS_EDUP.Core.AutoMapper
             CreateMap<AppUserDto, AppUser>().ForMember(dst => dst.UserName, act => act.MapFrom(src => src.Email));
             CreateMap<UserProfileVM, AppUser>();
             CreateMap<AppUser, UserProfileVM>();
-  
+            CreateMap<AppUser, UpdateProfileVM>();
+            CreateMap<UpdateProfileVM, AppUser>().ForMember(dst => dst.UserName, act => act.MapFrom(src => src.Email));
         }
     }
 }

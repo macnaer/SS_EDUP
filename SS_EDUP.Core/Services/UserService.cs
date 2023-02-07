@@ -261,13 +261,88 @@ namespace SS_EDUP.Core.Services
                     Message = "User not found.",
                 };
             }
-
+            var roles = await _userManager.GetRolesAsync(user);
             var mappesUser = _mapper.Map<AppUser, UserProfileVM>(user);
+            mappesUser.Role = roles[0];
             return new ServiceResponse
             {
                 Success = true,
                 Message = "User profile loaded.",
                 Payload = mappesUser
+            };
+        }
+
+        public async Task<ServiceResponse> GetUserForSettingsAsync(string  userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if(user == null)
+            {
+                return new ServiceResponse
+                {
+                    Success = false,
+                    Message = "User not found.",
+                };
+            }
+            var mappedUser = _mapper.Map<AppUser, UpdateProfileVM>(user);
+            return new ServiceResponse
+            {
+                Success = true,
+                Message = "User loaded.",
+                Payload = mappedUser
+            };
+        }
+
+        public async Task<ServiceResponse> UpdateProfileAsync(UpdateProfileVM model)
+        {
+            var user = await _userManager.FindByIdAsync(model.Id);
+            if (user == null)
+            {
+                return new ServiceResponse
+                {
+                    Message = "User not found.",
+                    Success = false
+                };
+            }
+
+            if (model.Password != model.ConfirmPassword)
+            {
+                return new ServiceResponse
+                {
+                    Message = "Password do not match.",
+                    Success = false
+                };
+            }
+
+
+            var mappedUser = _mapper.Map<UpdateProfileVM, AppUser>(model);
+            if(user.Email != model.Email)
+            {
+                mappedUser.EmailConfirmed = false;
+            }
+
+            var changePassword = await _userManager.ChangePasswordAsync(mappedUser, model.OldPassword, model.Password);
+            if(changePassword.Succeeded)
+            {
+
+                await _userManager.UpdateAsync(mappedUser);
+                return new ServiceResponse
+                {
+                    Message = "User successfully updated.",
+                    Success = false
+                };
+            }
+
+            List<IdentityError> errorList = changePassword.Errors.ToList();
+            string errors = "";
+
+            foreach (var error in errorList)
+            {
+                errors = errors + error.Description.ToString();
+            }
+            return new ServiceResponse
+            {
+                Message = errors,
+                Success = false
             };
         }
     }

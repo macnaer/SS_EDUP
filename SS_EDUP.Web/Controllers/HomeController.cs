@@ -41,45 +41,7 @@ namespace SS_EDUP.Web.Controllers
             ViewBag.ListCategories = categories;
             return View(_coursesService.GetAll());
         }
-        //public ActionResult Index(int? category_id, int? page)
-        //{
-        //    int PageSize = 10;
-        //    List<CategoryDTO> categories = _categoriesService.GetAll();
-        //    categories.Insert(0, new Category { Id = 0, Name = "All", Description = "All" });
-        //    ViewData["listCategory"] = categories;
-        //    ViewBag.listCategory = categories;
-
-
-        //    //var products = _context.Products.Include(product => product.Category).ToList();
-        //    var products = _context.Products.Include(p => p.Category).Select(
-        //        p => new ProductCardViewModel()
-        //        {
-        //            Product = p,
-        //        }
-        //        ).ToList();
-
-        //    int pageIndex = 1;
-        //    pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
-
-        //    foreach (var item in products)
-        //    {
-        //        item.IsInCart = IsProductInCart(item.Product.Id);
-        //    }
-
-        //    if (category_id != null && category_id > 0)
-        //    {
-        //        products = products.Where(p => p.Product.CategoryId == category_id).ToList();
-        //    }
-
-        //    IPagedList<Product> productsToReturn = null;
-        //    productsToReturn = (IPagedList<Product>)products.OrderBy
-        //                  (c => c.Product.Category.Name).ToPagedList(pageIndex, PageSize);
-
-
-        //    return View(productsToReturn);
-        //}
-
-
+ 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

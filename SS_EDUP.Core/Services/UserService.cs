@@ -314,22 +314,32 @@ namespace SS_EDUP.Core.Services
             }
 
 
-            var mappedUser = _mapper.Map<UpdateProfileVM, AppUser>(model);
-            if(user.Email != model.Email)
+            if (user.Email != model.Email)
             {
-                mappedUser.EmailConfirmed = false;
+                user.EmailConfirmed = false;
             }
+            user.Name = model.Name;
+            user.Surname = model.Surname;
+            user.PhoneNumber = model.PhoneNumber;
+            user.Email = model.Email;
+            user.UserName = model.Email;
+            
 
-            var changePassword = await _userManager.ChangePasswordAsync(mappedUser, model.OldPassword, model.Password);
+            var changePassword = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.Password);
             if(changePassword.Succeeded)
             {
 
-                await _userManager.UpdateAsync(mappedUser);
-                return new ServiceResponse
+                var result = await _userManager.UpdateAsync(user);
+                if (result.Succeeded)
                 {
-                    Message = "User successfully updated.",
-                    Success = false
-                };
+                    await SendConfirmationEmailAsync(user);
+                    await _signInManager.SignOutAsync();
+                    return new ServiceResponse
+                    {
+                        Message = "User successfully updated.",
+                        Success = false
+                    };
+                }
             }
 
             List<IdentityError> errorList = changePassword.Errors.ToList();

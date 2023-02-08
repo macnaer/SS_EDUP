@@ -215,7 +215,7 @@ namespace SS_EDUP.Web.Controllers
                 var result = await _userService.UpdateProfileAsync(model);
                 if (result.Success)
                 {
-                    return View(model);
+                    return RedirectToAction("SignIn", "Admin");
                 }
                 ViewBag.AuthError = result.Message;
                 return View(model);

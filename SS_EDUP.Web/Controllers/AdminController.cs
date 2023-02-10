@@ -138,7 +138,7 @@ namespace SS_EDUP.Web.Controllers
                 return View();
             }
         }
-
+            
         public async Task<IActionResult> Profile()
         {
             var userId = HttpContext.User.Identity.GetUserId();
@@ -187,9 +187,10 @@ namespace SS_EDUP.Web.Controllers
             return View();
         }
 
-        public IActionResult Users()
+        public async Task<IActionResult> Users()
         {
-            return View();
+            var result = await _userService.GetAllUsers();
+            return View(result.Payload);
         }
 
         [HttpPost]

@@ -2,12 +2,14 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SS_EDUP.Core.Entities;
 using SS_EDUP.Core.Interfaces;
 using SS_EDUP.Core.ViewModels.User;
 using SS_EDUP.Infrastructure.ViewModels.User;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -354,6 +356,23 @@ namespace SS_EDUP.Core.Services
                 Message = errors,
                 Success = false
             };
+        }
+
+        public async Task<ServiceResponse> GetAllUsers()
+        {
+            List<AppUser> users = await _userManager.Users.ToListAsync();
+            List<AllUsersVM> mappedUsers = users.Select(u => _mapper.Map<AppUser, AllUsersVM>(u)).ToList();
+
+            for (int i = 0; i < users.Count; i++)
+            {
+                mappedUsers[i].Role = (await _userManager.GetRolesAsync(users[i])).FirstOrDefault();
+            }
+            return new ServiceResponse {
+                Success = true,
+                Message = "All users loaded",
+                Payload= mappedUsers
+            };
+
         }
     }
 }

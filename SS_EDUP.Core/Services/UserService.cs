@@ -18,14 +18,14 @@ using System.Threading.Tasks;
 
 namespace SS_EDUP.Core.Services
 {
-    public class UserService : IUserService
+    public class UserService
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private IConfiguration _configuration;
         private EmailService _emailService;
         private readonly IMapper _mapper;
-       
+
 
         public UserService(EmailService emailService, IConfiguration configuration, IMapper mapper, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
@@ -36,9 +36,27 @@ namespace SS_EDUP.Core.Services
             _mapper = mapper;
         }
 
-        public Task<AppUser> GetUserByIdAsync(string id)
+        public async Task<ServiceResponse> GetUserByIdAsync(string id)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return new ServiceResponse
+                {
+                    Success = false,
+                    Message = "User not found."
+                };
+            }
+
+            var mappedUser = _mapper.Map<AppUser, EditUserVM>(user);
+
+            return new ServiceResponse
+            {
+                Success = true,
+                Message = "User logged in successfully.",
+                Payload = mappedUser
+            };
+
         }
 
         public async Task<ServiceResponse> LoginUserAsync(LoginUserVM model)
@@ -189,7 +207,7 @@ namespace SS_EDUP.Core.Services
                 await SendConfirmationEmailAsync(mappesUser);
                 return new ServiceResponse
                 {
-                    Success= true,
+                    Success = true,
                     Message = "User successfully created."
                 };
             }
@@ -255,7 +273,7 @@ namespace SS_EDUP.Core.Services
         public async Task<ServiceResponse> GetUserProfileAsync(string Id)
         {
             var user = await _userManager.FindByIdAsync(Id);
-            if(user == null)
+            if (user == null)
             {
                 return new ServiceResponse
                 {
@@ -274,10 +292,10 @@ namespace SS_EDUP.Core.Services
             };
         }
 
-        public async Task<ServiceResponse> GetUserForSettingsAsync(string  userId)
+        public async Task<ServiceResponse> GetUserForSettingsAsync(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
-            if(user == null)
+            if (user == null)
             {
                 return new ServiceResponse
                 {
@@ -325,10 +343,10 @@ namespace SS_EDUP.Core.Services
             user.PhoneNumber = model.PhoneNumber;
             user.Email = model.Email;
             user.UserName = model.Email;
-            
+
 
             var changePassword = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.Password);
-            if(changePassword.Succeeded)
+            if (changePassword.Succeeded)
             {
 
                 var result = await _userManager.UpdateAsync(user);
@@ -367,10 +385,11 @@ namespace SS_EDUP.Core.Services
             {
                 mappedUsers[i].Role = (await _userManager.GetRolesAsync(users[i])).FirstOrDefault();
             }
-            return new ServiceResponse {
+            return new ServiceResponse
+            {
                 Success = true,
                 Message = "All users loaded",
-                Payload= mappedUsers
+                Payload = mappedUsers
             };
 
         }

@@ -158,7 +158,18 @@ namespace SS_EDUP.Web.Controllers
             ViewBag.Email = email;
             return View();
         }
-            
+
+        
+        public async Task<IActionResult> EditUser(string id)
+        {
+            var result = await _userService.GetUserByIdAsync(id);
+            if (result.Success)
+            {
+                return View(result.Payload);
+            }
+            return View();
+        }
+
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]

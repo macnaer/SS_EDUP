@@ -24,6 +24,7 @@ namespace SS_EDUP.Core.AutoMapper
             CreateMap<AppUser, UpdateProfileVM>();
             CreateMap<UpdateProfileVM, AppUser>().ForMember(dst => dst.UserName, act => act.MapFrom(src => src.Email));
             CreateMap<AllUsersVM, AppUser>().ReverseMap();
+            CreateMap<AppUser, EditUserVM>().ReverseMap();
         }
     }
 }

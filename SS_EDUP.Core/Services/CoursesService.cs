@@ -5,6 +5,7 @@ using SS_EDUP.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,40 +24,40 @@ namespace SS_EDUP.Core.Services
             this._categoryRepo = categoryRepo;
             this._mapper = mapper;
         }
-        public void Create(CourseDto courseDto)
+        public async Task Create(CourseDto courseDto)
         {
-            _courseRepo.Insert(_mapper.Map<Course>(courseDto));
-            _courseRepo.Save();
+            await _courseRepo.Insert(_mapper.Map<Course>(courseDto));
+            await _courseRepo.Save();
         }
 
-        public void Delete(int id)
+        public  async Task Delete(int id)
         {
-           var  course =  Get(id);
+           var  course =  await Get(id);
             if (course != null)
             {
-                _courseRepo.Delete(id);
-                _courseRepo.Save();
+                await _courseRepo.Delete(id);
+                await _courseRepo.Save();
             }
         }
 
-        public CourseDto? Get(int id)
+        public async Task<CourseDto?> Get(int id)
         {
             if(id <0)
                 return null;
-            var course = _courseRepo.GetByID(id);
+            var course = await _courseRepo.GetByID(id);
             return _mapper.Map<CourseDto>(course);
         }
 
-        public List<CourseDto> GetAll()
+        public async Task<List<CourseDto>> GetAll()
         {
-            return _mapper.Map< List<CourseDto> >(_courseRepo.Get(includeProperties: "Category").ToList());
+            return  _mapper.Map<List<CourseDto>>(await _courseRepo.Get(includeProperties: "Category")) ;
         }
 
        
-        public void Update(CourseDto courseDto)
+        public async Task  Update(CourseDto courseDto)
         {
-           _courseRepo.Update(_mapper.Map<Course>(courseDto));
-           _courseRepo.Save();
+           await _courseRepo.Update(_mapper.Map<Course>(courseDto));
+           await _courseRepo.Save();
         }
     }
 }

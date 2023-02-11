@@ -23,12 +23,13 @@ namespace SS_EDUP.Web.Controllers
             _coursesService = coursesService;
         }
 
-        public IActionResult Index()
+        public async Task< IActionResult> Index()
         {
-            List<CategoryDto> categories = _categoriesService.GetAll();
+            /*List<CategoryDto> */
+            var categories = await _categoriesService.GetAll();
             categories.Insert(0, new CategoryDto { Id = 0, Name = "All", Description = "All" });
             ViewBag.ListCategories = categories;
-            return View(_coursesService.GetAll());
+            return View(await _coursesService.GetAll());
         }
  
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

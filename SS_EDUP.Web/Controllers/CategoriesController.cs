@@ -21,31 +21,31 @@ namespace SS_EDUP.Web.Controllers
             _categoriesService = categoriesService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
 
-            return View(_categoriesService.GetAll());
+            return View(await _categoriesService.GetAll());
         }
 
 
         //GET
         public IActionResult Create()
         {
-            return View();
+            return  View();
         }
 
             //POST
 
         [HttpPost]
-        public IActionResult Create(CategoryDto categoryDto) {
-            _categoriesService.Create(categoryDto);
+        public async  Task<IActionResult> Create(CategoryDto categoryDto) {
+            await _categoriesService.Create(categoryDto);
             return RedirectToAction(nameof(Index));
         }
 
         // GET: ~/Categories/Edit/{id}
-        public IActionResult Edit(int id)
+        public async Task< IActionResult> Edit(int id)
         {
-            var categoryDto = _categoriesService.Get(id);
+            var categoryDto = await _categoriesService.Get(id);
 
             if (categoryDto == null) return NotFound();
 
@@ -55,19 +55,19 @@ namespace SS_EDUP.Web.Controllers
 
         // POST: ~/Categories/Edit
         [HttpPost]
-        public IActionResult Edit(CategoryDto categoryDto) // 1-FromForm, 2-FromRoute, 
+        public async Task<IActionResult> Edit(CategoryDto categoryDto) // 1-FromForm, 2-FromRoute, 
         {
             // TODO: add validations
 
-            _categoriesService.Update(categoryDto);
+            await _categoriesService.Update(categoryDto);
 
             return RedirectToAction(nameof(Index));
         }
 
         // GET: ~/Categories/Delete/{id}
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _categoriesService.Delete(id);
+            await _categoriesService.Delete(id);
 
             return RedirectToAction(nameof(Index));
         }

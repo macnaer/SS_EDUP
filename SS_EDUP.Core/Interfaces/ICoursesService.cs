@@ -9,10 +9,10 @@ namespace SS_EDUP.Core.Interfaces
 {
     public interface ICoursesService
     {
-        List<CourseDto> GetAll(); //...
-        CourseDto? Get(int id);
-        void Create(CourseDto course);
-        void Update(CourseDto course);
-        void Delete(int id);
+       Task< List<CourseDto>> GetAll(); //...
+        Task<CourseDto?> Get(int id);
+        Task Create(CourseDto course);
+        Task Update(CourseDto course);
+        Task Delete(int id);
     }
 }

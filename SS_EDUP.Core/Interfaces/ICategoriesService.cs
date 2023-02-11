@@ -9,11 +9,11 @@ namespace SS_EDUP.Core.Interfaces
 {
     public interface ICategoriesService
     {
-        List<CategoryDto> GetAll();
+        Task<List<CategoryDto>> GetAll();
        
-        CategoryDto? Get(int id);
-        void Create(CategoryDto categoryDto);
-        void Update(CategoryDto categoryDto);
-        void Delete(int id);
+        Task<CategoryDto?> Get(int id);
+        Task Create(CategoryDto categoryDto);
+        Task Update(CategoryDto categoryDto);
+        Task Delete(int id);
     }
 }

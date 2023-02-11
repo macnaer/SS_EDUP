@@ -14,5 +14,6 @@ namespace SS_EDUP.Core.Interfaces
         Task Create(CourseDto course);
         Task Update(CourseDto course);
         Task Delete(int id);
+        Task<List<CourseDto>> GetByCategory(int id);
     }
 }

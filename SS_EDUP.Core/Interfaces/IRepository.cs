@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ardalis.Specification;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -12,11 +13,14 @@ namespace SS_EDUP.Core.Interfaces
     {
         Task Save();
 
-        Task<IEnumerable<TEntity>> Get(
-            Expression<Func<TEntity, bool>> filter = null,
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-            string includeProperties = "");
+        //Task<IEnumerable<TEntity>> Get(
+        //    Expression<Func<TEntity, bool>> filter = null,
+        //    Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+        //    string includeProperties = "");
+        Task<TEntity?> GetItemBySpec(ISpecification<TEntity> specification);
+        Task<IEnumerable<TEntity>> GetListBySpec(ISpecification<TEntity> specification);
 
+        Task<IEnumerable<TEntity>> GetAll();
         Task<TEntity?> GetByID(object id);
 
         Task Insert(TEntity entity);
@@ -26,5 +30,6 @@ namespace SS_EDUP.Core.Interfaces
         Task Delete(TEntity entityToDelete);
 
         Task Update(TEntity entityToUpdate);
+
     }
 }

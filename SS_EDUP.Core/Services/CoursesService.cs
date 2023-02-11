@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SS_EDUP.Core.DTO_s;
 using SS_EDUP.Core.Entities;
+using SS_EDUP.Core.Entities.Specifications;
 using SS_EDUP.Core.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -50,7 +51,9 @@ namespace SS_EDUP.Core.Services
 
         public async Task<List<CourseDto>> GetAll()
         {
-            return  _mapper.Map<List<CourseDto>>(await _courseRepo.Get(includeProperties: "Category")) ;
+            //return  _mapper.Map<List<CourseDto>>(await _courseRepo.Get(includeProperties: "Category")) ;
+            var result = await _courseRepo.GetListBySpec(new Courses.All());
+            return _mapper.Map<List<CourseDto>>(result);
         }
 
        
@@ -58,6 +61,11 @@ namespace SS_EDUP.Core.Services
         {
            await _courseRepo.Update(_mapper.Map<Course>(courseDto));
            await _courseRepo.Save();
+        }
+
+        public async Task<List<CourseDto>> GetByCategory(int id) {
+            var result = await _courseRepo.GetListBySpec(new Courses.ByCategory(id));
+            return _mapper.Map<List<CourseDto>>(result);
         }
     }
 }

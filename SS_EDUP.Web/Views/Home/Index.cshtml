@@ -12,7 +12,7 @@
                 @foreach (var category in @ViewBag.ListCategories)
                 {
                 <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" asp-action="Index" asp-route-category_id="@category.Id">@category.Name</a>
+                        <a class="nav-link active" aria-current="page" asp-action="Index" asp-route-categoryId="@category.Id">@category.Name</a>
                 </li>
                 }
             </ul>
@@ -24,7 +24,7 @@
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
                             <li class="breadcrumb-item"><a href="#">Category</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">All</li>
+                            <li class="breadcrumb-item active" aria-current="page"> @ViewBag.SelectCategory</li>
                         </ol>
                     </nav>
                 </div>

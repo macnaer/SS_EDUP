@@ -50,7 +50,7 @@ namespace SS_EDUP.Core.Services
         }
         public async Task<List<CategoryDto>> GetAll()
         {
-            var result = await  _categoryRepo.Get();//.ToList();
+            var result = await  _categoryRepo.GetAll();//.ToList();
             return _mapper.Map<List<CategoryDto>>(result);
         }
 

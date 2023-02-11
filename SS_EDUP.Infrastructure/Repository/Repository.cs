@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Ardalis.Specification;
+using Ardalis.Specification.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SS_EDUP.Core.Interfaces;
 using SS_EDUP.Infrastructure.Context;
 using System;
@@ -22,68 +24,100 @@ namespace SS_EDUP.Infrastructure.Repository
             this.dbSet = context.Set<TEntity>();
         }
 
-        public void Save()
+        public async Task Save()
         {
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
-        public virtual IEnumerable<TEntity> Get(
-            Expression<Func<TEntity, bool>> filter = null,
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-            string includeProperties = "")
-        {
-            IQueryable<TEntity> query = dbSet;
+        //public async virtual Task< IEnumerable<TEntity> >Get(
+        //    Expression<Func<TEntity, bool>> filter = null,
+        //    Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+        //    string includeProperties = "")
+        //{
+        //    IQueryable<TEntity> query = dbSet;
 
-            if (filter != null)
+        //    if (filter != null)
+        //    {
+        //        query = query.Where(filter);
+        //    }
+
+        //    foreach (var includeProperty in includeProperties.Split
+        //        (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+        //    {
+        //        query = query.Include(includeProperty);
+        //    }
+
+        //    if (orderBy != null)
+        //    {
+        //        return await orderBy(query).ToListAsync();
+        //    }
+        //    else
+        //    {
+        //        return await query.ToListAsync();
+        //    }
+        //}
+
+
+        public async virtual Task<TEntity?> GetByID(object id)
+        {
+           return await dbSet.FindAsync(id);
+        }
+
+        public async virtual Task Insert(TEntity entity)
+        {
+            await dbSet.AddAsync(entity);
+        }
+
+        public async virtual Task Delete(object id)
+        {
+            TEntity? entityToDelete = await dbSet.FindAsync(id);
+            if(entityToDelete!=null)
+                await  Delete(entityToDelete);
+        }
+
+        public  async virtual Task Delete(TEntity entityToDelete)
+        {
+            await  Task.Run(
+                () =>
             {
-                query = query.Where(filter);
-            }
-
-            foreach (var includeProperty in includeProperties.Split
-                (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-            {
-                query = query.Include(includeProperty);
-            }
-
-            if (orderBy != null)
-            {
-                return orderBy(query).ToList();
-            }
-            else
-            {
-                return query.ToList();
-            }
+                if (context.Entry(entityToDelete).State == EntityState.Detached)
+                {
+                    dbSet.Attach(entityToDelete);
+                }
+                dbSet.Remove(entityToDelete);
+            });
         }
 
-        public virtual TEntity GetByID(object id)
+        public async virtual Task Update(TEntity entityToUpdate)
         {
-            return dbSet.Find(id);
+            await Task.Run(
+                () =>
+                {
+                    dbSet.Attach(entityToUpdate);
+                    context.Entry(entityToUpdate).State = EntityState.Modified;
+                });
+            
         }
 
-        public virtual void Insert(TEntity entity)
+        public async Task<TEntity?> GetItemBySpec(ISpecification<TEntity> specification)
         {
-            dbSet.Add(entity);
+            // apply specification
+            return await ApplySpecification(specification).FirstOrDefaultAsync();
         }
 
-        public virtual void Delete(object id)
+        public async Task<IEnumerable<TEntity>> GetListBySpec(ISpecification<TEntity> specification)
         {
-            TEntity entityToDelete = dbSet.Find(id);
-            Delete(entityToDelete);
+            return await ApplySpecification(specification).ToListAsync();
         }
 
-        public virtual void Delete(TEntity entityToDelete)
+        private IQueryable<TEntity> ApplySpecification(ISpecification<TEntity> specification)
         {
-            if (context.Entry(entityToDelete).State == EntityState.Detached)
-            {
-                dbSet.Attach(entityToDelete);
-            }
-            dbSet.Remove(entityToDelete);
+            var evaluator = new SpecificationEvaluator();
+            return evaluator.GetQuery(dbSet, specification);
         }
-
-        public virtual void Update(TEntity entityToUpdate)
+        public async Task<IEnumerable<TEntity>> GetAll()
         {
-            dbSet.Attach(entityToUpdate);
-            context.Entry(entityToUpdate).State = EntityState.Modified;
+            return await dbSet.ToListAsync();
         }
     }
 }

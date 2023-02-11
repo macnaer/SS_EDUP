@@ -21,46 +21,45 @@ namespace SS_EDUP.Core.Services
            this._categoryRepo = categoryRepo;
             this._mapper = mapper;
         }
-        public void Create(CategoryDto categoryDto)
+        public async Task Create(CategoryDto categoryDto)
         {
             // create category in db
-           _categoryRepo.Insert(_mapper.Map<Category>(categoryDto));
-           _categoryRepo.Save(); // submit changes in db
+           await _categoryRepo.Insert(_mapper.Map<Category>(categoryDto));
+           await _categoryRepo.Save(); // submit changes in db
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            var categoryDto = Get(id);
+            var categoryDto = await Get(id);
 
             if (categoryDto == null) return; // exception
 
-            _categoryRepo.Delete(id);
-            _categoryRepo.Save();
+            await _categoryRepo.Delete(id);
+            await _categoryRepo.Save();
         }
 
-        public CategoryDto? Get(int id)
+        public async Task<CategoryDto?> Get(int id)
         {
             if (id < 0) return null; // exception handling
 
-            var category = _categoryRepo.GetByID(id);
+            var category = await _categoryRepo.GetByID(id);
 
             if (category == null) return null; // exception handling
 
             return _mapper.Map<CategoryDto>(category);
         }
-
-        public List<CategoryDto> GetAll()
+        public async Task<List<CategoryDto>> GetAll()
         {
-            var result = _categoryRepo.Get().ToList();
+            var result = await  _categoryRepo.GetAll();//.ToList();
             return _mapper.Map<List<CategoryDto>>(result);
         }
 
       
 
-        public void Update(CategoryDto categoryDto)
+        public async Task Update(CategoryDto categoryDto)
         {
-            _categoryRepo.Update(_mapper.Map<Category>(categoryDto));
-            _categoryRepo.Save();
+            await _categoryRepo.Update(_mapper.Map<Category>(categoryDto));
+            await _categoryRepo.Save();
         }
     }
 }

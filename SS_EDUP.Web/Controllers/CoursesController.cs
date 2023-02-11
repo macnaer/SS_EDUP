@@ -23,61 +23,61 @@ namespace SS_EDUP.Web.Controllers
             _coursesService = coursesService;
             _categoriesService = categoriesService;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_coursesService.GetAll());
+            return View(await _coursesService.GetAll());
         }
 
-        private void LoadCategories()// ??
+        private async Task LoadCategories()// ??
         {
-            ViewBag.CategoriesList = new SelectList(
-                _categoriesService.GetAll(), 
-                nameof(CategoryDto.Id), 
+            ViewBag.CategoriesList =  new SelectList(
+                await _categoriesService.GetAll(), 
+                nameof(CategoryDto.Id),
                 nameof(CategoryDto.Name)
                 );
-            
+
         }
         // GET: ~/Courses/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            LoadCategories();
+            await LoadCategories();
             return View();
 
         }
         
         // POST: ~/Courses/Create
         [HttpPost]
-        public IActionResult Create(CourseDto courseDto)
+        public async Task<IActionResult> Create(CourseDto courseDto)
         {
-            _coursesService.Create(courseDto);
+            await _coursesService.Create(courseDto);
             return RedirectToAction(nameof(Index));
         }
         // GET: ~/Products/Edit/{id}
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var course = _coursesService.Get(id);
+            var course =  await _coursesService.Get(id);
 
             if (course == null) return NotFound();
 
-            LoadCategories();
+            await LoadCategories();
             return View(course);
         }
 
         // POST: ~/Products/Edit
         [HttpPost]
-        public IActionResult Edit(CourseDto courseDto) 
+        public async Task<IActionResult> Edit(CourseDto courseDto) 
         {
             // TODO: add validations
 
-            _coursesService.Update(courseDto);
+            await _coursesService.Update(courseDto);
 
             return RedirectToAction(nameof(Index));
         }
 
         // GET: ~/Products/Delete/{id}
-        public IActionResult Delete(int id)
+        public async Task <IActionResult> Delete(int id)
         {
-            _coursesService.Delete(id);
+            await _coursesService.Delete(id);
 
             return RedirectToAction(nameof(Index));
         }

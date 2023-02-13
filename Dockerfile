@@ -1,16 +1,16 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
-FROM mcr.microsoft.com/dotnet/aspnet:7.0
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+MAINTEINER Trofimchuk Andrii
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 COPY . /app
-RUN PWD && ls -l
-RUN dotnet restore "SS_EDUP.Web/SS_EDUP.Web.csproj"
+WORKDIR /app/SS_EDUP.Web
 
-RUN dotnet build "SS_EDUP.Web.csproj" -c Release -o /app/build
+RUN dotnet restore "SS_EDUP.Web.csproj"
 
-WORKDIR /app
-
-ENTRYPOINT ["dotnet", "SS_EDUP.Web.dll"]
+RUN dotnet publish "SS_EDUP.Web.csproj" -c Release -o /app/build
+WORKDIR /app/build
+RUN ls -l
+ENTRYPOINT ["dotnet", "SS_EDUP.Web.dll", "--urls=http://0.0.0.0:80"]

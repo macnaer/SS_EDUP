@@ -44,6 +44,7 @@ namespace SS_EDUP.Core
         {
             // Add user mapping
             services.AddAutoMapper(typeof(AutoMapperUserProfile));
+            services.AddAutoMapper(typeof(AutoMapperCourseAndCategoryProfile));
         }
 
         public static void AddCategoryAndProductServices(this IServiceCollection services)

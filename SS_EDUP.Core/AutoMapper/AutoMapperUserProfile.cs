@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Routing.Constraints;
 using SS_EDUP.Core.DTO_s;
 using SS_EDUP.Core.Entities;
 using SS_EDUP.Core.ViewModels.User;
@@ -25,6 +26,17 @@ namespace SS_EDUP.Core.AutoMapper
             CreateMap<UpdateProfileVM, AppUser>().ForMember(dst => dst.UserName, act => act.MapFrom(src => src.Email));
             CreateMap<AllUsersVM, AppUser>().ReverseMap();
             CreateMap<AppUser, EditUserVM>().ReverseMap();
+            CreateMap<Category, CategoryDto>();
+            CreateMap<CategoryDto, Category>();
+            CreateMap<Course, CourseDto>().ForMember(
+                dst => dst.CategoryName,
+                act => act.MapFrom(x => GetCategoryName(x))); 
+            CreateMap<CourseDto, Course>();
+
+        }
+        static string GetCategoryName(Course course)
+        {
+            return course.Category?.Name ?? "Not loaded";
         }
     }
 }

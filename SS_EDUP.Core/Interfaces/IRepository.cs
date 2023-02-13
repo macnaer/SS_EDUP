@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ardalis.Specification;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -10,21 +11,25 @@ namespace SS_EDUP.Core.Interfaces
 {
     public interface IRepository<TEntity> where TEntity : class, IEntity
     {
-        void Save();
+        Task Save();
 
-        IEnumerable<TEntity> Get(
-            Expression<Func<TEntity, bool>> filter = null,
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-            string includeProperties = "");
+        //Task<IEnumerable<TEntity>> Get(
+        //    Expression<Func<TEntity, bool>> filter = null,
+        //    Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+        //    string includeProperties = "");
+        Task<TEntity?> GetItemBySpec(ISpecification<TEntity> specification);
+        Task<IEnumerable<TEntity>> GetListBySpec(ISpecification<TEntity> specification);
 
-        TEntity GetByID(object id);
+        Task<IEnumerable<TEntity>> GetAll();
+        Task<TEntity?> GetByID(object id);
 
-        void Insert(TEntity entity);
+        Task Insert(TEntity entity);
 
-        void Delete(object id);
+        Task Delete(object id);
 
-        void Delete(TEntity entityToDelete);
+        Task Delete(TEntity entityToDelete);
 
-        void Update(TEntity entityToUpdate);
+        Task Update(TEntity entityToUpdate);
+
     }
 }

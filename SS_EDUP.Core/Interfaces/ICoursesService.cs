@@ -1,4 +1,4 @@
-﻿using SS_EDUP.Core.Entities;
+﻿using SS_EDUP.Core.DTO_s;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +9,11 @@ namespace SS_EDUP.Core.Interfaces
 {
     public interface ICoursesService
     {
-        List<Course> GetAll();
-        Course? Get(int id);
-        void Create(Course course);
-        void Update(Course course);
-        void Delete(int id);
+       Task< List<CourseDto>> GetAll(); //...
+        Task<CourseDto?> Get(int id);
+        Task Create(CourseDto course);
+        Task Update(CourseDto course);
+        Task Delete(int id);
+        Task<List<CourseDto>> GetByCategory(int id);
     }
 }

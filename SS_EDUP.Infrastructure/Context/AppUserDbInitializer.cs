@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SS_EDUP.Infrastructure.Context
 {
-    internal static class AppDbInitializer
+    internal static class AppUserDbInitializer
     {
         public static void SeedCategories(this ModelBuilder modelBuilder)
         {

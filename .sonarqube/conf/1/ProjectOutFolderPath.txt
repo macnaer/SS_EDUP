@@ -1,0 +1,1 @@
+C:\Lib\SoftServe\MVC\SS_EDUP\.sonarqube\out\1

@@ -11,9 +11,9 @@
             <ul class="nav flex-column">
                 @foreach (var category in @ViewBag.ListCategories)
                 {
-                <li class="nav-item">
+                    <li class="nav-item">
                         <a class="nav-link active" aria-current="page" asp-action="Index" asp-route-categoryId="@category.Id">@category.Name</a>
-                </li>
+                    </li>
                 }
             </ul>
         </div>
@@ -30,43 +30,53 @@
                 </div>
                 <div class="row">
                     <div class="col-12 mt-4">
-                                     
+
                         <div class="card mb-4">
                             <div class="card-body p-3">
                                 <div class="row">
-                                     @foreach(var course in Model){
-                                    <div class="col-xl-3 col-md-6 mb-xl-0 mb-4">
-                                        <div class="card card-blog card-plain">
-                                            <div class="position-relative">
-                                                <a class="d-block shadow-xl border-radius-xl">
-                                                        <img src="@course.ImagePath" alt="img-blur-shadow" class="img-fluid shadow border-radius-xl">
-                                                </a>
-                                            </div>
-                                            <div class="card-body px-1 pb-0">
+                                    @foreach (var course in Model)
+                                    {
+                                        <div class="col-xl-3 col-md-6 mb-xl-0 mb-4">
+                                            <div class="card card-blog card-plain">
+                                                <div class="position-relative">
+                                                    <a class="d-block shadow-xl border-radius-xl">
+                                                        @if (course.ImagePath == "https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png")
+                                                        {
+                                                            <img src="@course.ImagePath" class="img-fluid shadow border-radius-xl" alt="user1">
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <img src="~/images//courses/@course.ImagePath" class="img-fluid shadow border-radius-xl" alt="user1">
+                                                        }
+
+                                                    </a>
+                                                </div>
+                                                <div class="card-body px-1 pb-0">
                                                     <p class="text-gradient text-dark mb-2 text-sm">@course.CategoryName</p>
-                                                <a href="javascript:;">
-                                                    <h5>
+                                                    <a href="javascript:;">
+                                                        <h5>
                                                             @course.Title
-                                                    </h5>
-                                                </a>
-                                                <p class="mb-4 text-sm">
-                                                        @course.Description
-                                                </p>
+                                                        </h5>
+                                                    </a>
+                                                    <p class="mb-4 text-sm">
+                                                        @Html.Raw(@course.Description)
+                                                    </p>
                                                     <p class="mb-4 text-sm">
                                                         @course.Price UAH
                                                     </p>
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <button type="button" class="btn btn-outline-primary btn-sm mb-0">Start Course</button>
+                                                    <div class="d-flex align-items-center justify-content-between">
+                                                        <button type="button" class="btn btn-outline-primary btn-sm mb-0">Start Course</button>
                                                         <div class="avatar-group mt-2">
                                                             <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Elena Morison">
                                                                 <img alt="Image placeholder" src="../assets/img/team-1.jpg">
                                                             </a>
-                                                            
+
                                                         </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
                                     }
                                 </div>
                             </div>
@@ -94,8 +104,8 @@
                     </nav>
                 </div>
             </div>
-            
+
         </div>
-        
+
     </div>
 </div>

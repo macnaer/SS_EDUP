@@ -3,10 +3,12 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SS_EDUP.Core.DTO_s;
 using SS_EDUP.Core.Entities;
 using SS_EDUP.Core.Interfaces;
 using SS_EDUP.Core.Services;
+using SS_EDUP.Core.Validation.Course;
 using SS_EDUP.Core.Validation.User;
 using SS_EDUP.Core.ViewModels.User;
 using SS_EDUP.Infrastructure.ViewModels.User;
@@ -304,6 +306,39 @@ namespace SS_EDUP.Web.Controllers
         public async Task<IActionResult> GetCourses()
         {
             return View(await _coursesService.GetAll());
+        }
+
+
+        private async Task LoadCategories()// ??
+        {
+            ViewBag.CategoriesList = new SelectList(
+                await _categoriesService.GetAll(),
+                nameof(CategoryDto.Id),
+                nameof(CategoryDto.Name)
+                );
+
+        }
+        public async Task<IActionResult> AddCourse()
+        {
+            await LoadCategories();
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddCourse(CourseDto model)
+        {
+            var validator = new AddCourseValidation();
+            var validationResult = await validator.ValidateAsync(model);
+            if(validationResult.IsValid)
+            {             
+                var files = HttpContext.Request.Form.Files;
+                model.File = files;
+                await _coursesService.Create(model);
+                return RedirectToAction(nameof(GetCourses));
+            }
+            
+            return View();
         }
     }
 }

@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Configuration;
 using SS_EDUP.Core.DTO_s;
 using SS_EDUP.Core.Entities;
 using SS_EDUP.Core.Entities.Specifications;
@@ -14,19 +17,35 @@ namespace SS_EDUP.Core.Services
 {
     public class CoursesService : ICoursesService
     {
+        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IRepository<Course> _courseRepo;
         private readonly IRepository<Category> _categoryRepo;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _configuration;
         public CoursesService(IRepository<Course> courseRepo, 
             IRepository<Category> categoryRepo, 
-            IMapper mapper)
+            IMapper mapper, IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
         {
-            this._courseRepo = courseRepo;
-            this._categoryRepo = categoryRepo;
-            this._mapper = mapper;
+            _courseRepo = courseRepo;
+            _categoryRepo = categoryRepo;
+            _mapper = mapper;
+            _webHostEnvironment = webHostEnvironment;
+            _configuration = configuration;
         }
         public async Task Create(CourseDto courseDto)
         {
+            string webPathRoot = _webHostEnvironment.WebRootPath;
+            var files = courseDto.File;
+            string upload = webPathRoot + _configuration.GetValue<string>("ImageSettings:ImagePath");
+            string fileName = Guid.NewGuid().ToString();
+            string extension = Path.GetExtension(files[0].FileName);
+            using (var fileStream = new FileStream(Path.Combine(upload, fileName + extension), FileMode.Create))
+            {
+                files[0].CopyTo(fileStream);
+            }
+
+            courseDto.ImagePath = fileName + extension;
+
             await _courseRepo.Insert(_mapper.Map<Course>(courseDto));
             await _courseRepo.Save();
         }

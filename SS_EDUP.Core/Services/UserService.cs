@@ -357,7 +357,7 @@ namespace SS_EDUP.Core.Services
                     return new ServiceResponse
                     {
                         Message = "User successfully updated.",
-                        Success = false
+                        Success = true
                     };
                 }
             }
@@ -374,6 +374,55 @@ namespace SS_EDUP.Core.Services
                 Message = errors,
                 Success = false
             };
+        }
+
+        public async Task<ServiceResponse> EditUserAsync(EditUserVM model)
+        {
+            var user = await _userManager.FindByIdAsync(model.Id);
+            if (user == null)
+            {
+                return new ServiceResponse
+                {
+                    Message = "User not found.",
+                    Success = false
+                };
+            }
+
+            user.Surname = model.Surname;
+            user.Name = model.Name;
+            user.PhoneNumber= model.PhoneNumber;
+            if(user.Email != model.Email)
+            {
+                user.EmailConfirmed= false;
+                user.Email = model.Email;
+                user.UserName = model.Email;
+                await SendConfirmationEmailAsync(user);
+            }
+          
+            var result = await _userManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+               
+                return new ServiceResponse
+                {
+                    Message = "User successfully updated.",
+                    Success = true
+                };
+            }
+
+            List<IdentityError> errorList = result.Errors.ToList();
+            string errors = "";
+
+            foreach (var error in errorList)
+            {
+                errors = errors + error.Description.ToString();
+            }
+            return new ServiceResponse
+            {
+                Message = errors,
+                Success = false
+            };
+
         }
 
         public async Task<ServiceResponse> GetAllUsers()
@@ -393,5 +442,21 @@ namespace SS_EDUP.Core.Services
             };
 
         }
+
+        //public async Task<ServiceResponse> GetAuthenticationKeyAsync(string userId)
+        //{
+        //    var user = await _userManager.GetUserIdAsync(userId);
+        //    await _userManager.ResetAuthenticatorKeyAsync(user);
+        //    var token = await _userManager.GetAuthenticatorKeyAsync(user);
+        //    var model = new TwoFactorAuthenticationVM() { Token= token };
+        //    return 
+        //}        //public async Task<ServiceResponse> GetAuthenticationKeyAsync(string userId)
+        //{
+        //    var user = await _userManager.GetUserIdAsync(userId);
+        //    await _userManager.ResetAuthenticatorKeyAsync(user);
+        //    var token = await _userManager.GetAuthenticatorKeyAsync(user);
+        //    var model = new TwoFactorAuthenticationVM() { Token= token };
+        //    return 
+        //}
     }
 }

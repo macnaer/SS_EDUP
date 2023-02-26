@@ -3,7 +3,9 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using SS_EDUP.Core.DTO_s;
 using SS_EDUP.Core.Entities;
+using SS_EDUP.Core.Interfaces;
 using SS_EDUP.Core.Services;
 using SS_EDUP.Core.Validation.User;
 using SS_EDUP.Core.ViewModels.User;
@@ -16,10 +18,14 @@ namespace SS_EDUP.Web.Controllers
     {
 
         private readonly UserService _userService;
+        private readonly ICategoriesService _categoriesService;
+        private readonly ICoursesService _coursesService;
 
-        public AdminController(UserService userService)
+        public AdminController(ICoursesService coursesService, UserService userService, ICategoriesService categoriesService)
         {
             _userService = userService;
+            _categoriesService = categoriesService;
+            _coursesService = coursesService;
         }
 
         public IActionResult Index()
@@ -170,6 +176,26 @@ namespace SS_EDUP.Web.Controllers
             return View();
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditUser(EditUserVM model)
+        {
+            var validator = new EditUserValidation();
+            var validationResult = await validator.ValidateAsync(model);
+            if (validationResult.IsValid)
+            {
+                var result = await _userService.EditUserAsync(model);
+                if (result.Success)
+                {
+                    return View(model);
+                }
+                ViewBag.AuthError = result.Message;
+                return View();
+            }
+
+            return View(model);
+        }
+
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -243,6 +269,41 @@ namespace SS_EDUP.Web.Controllers
                 return View(result.Payload);
             }
             return View();
+        }
+
+        public async Task<IActionResult> GetCategories()
+        {
+            return View(await _categoriesService.GetAll());
+        }
+
+        public async Task<IActionResult> EditCategory(int Id)
+        {
+            var categoryDto = await _categoriesService.Get(Id);
+
+            if (categoryDto == null) return NotFound();
+
+
+            return View(categoryDto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditCategory(CategoryDto categoryDto)
+        {
+            await _categoriesService.Update(categoryDto);
+
+            return RedirectToAction(nameof(GetCategories));
+        }
+
+        public async Task<IActionResult> DeleteCategory(int id)
+        {
+            await _categoriesService.Delete(id);
+
+            return RedirectToAction(nameof(GetCategories));
+        }
+
+        public async Task<IActionResult> GetCourses()
+        {
+            return View(await _coursesService.GetAll());
         }
     }
 }

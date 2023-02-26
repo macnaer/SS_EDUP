@@ -1,0 +1,14 @@
+﻿C:\Lib\SoftServe\MVC\SS_EDUP\SS_EDUP.Infrastructure\Context\AppDbContext.cs
+C:\Lib\SoftServe\MVC\SS_EDUP\SS_EDUP.Infrastructure\Context\AppUserDbInitializer.cs
+C:\Lib\SoftServe\MVC\SS_EDUP\SS_EDUP.Infrastructure\Initializers\AppDbInitializer.cs
+C:\Lib\SoftServe\MVC\SS_EDUP\SS_EDUP.Infrastructure\Migrations\20230125094835_Init base identity.cs
+C:\Lib\SoftServe\MVC\SS_EDUP\SS_EDUP.Infrastructure\Migrations\20230125094835_Init base identity.Designer.cs
+C:\Lib\SoftServe\MVC\SS_EDUP\SS_EDUP.Infrastructure\Migrations\20230127125928_Extends IdentityUser.cs
+C:\Lib\SoftServe\MVC\SS_EDUP\SS_EDUP.Infrastructure\Migrations\20230127125928_Extends IdentityUser.Designer.cs
+C:\Lib\SoftServe\MVC\SS_EDUP\SS_EDUP.Infrastructure\Migrations\20230129195545_Create_Category_And_Course.cs
+C:\Lib\SoftServe\MVC\SS_EDUP\SS_EDUP.Infrastructure\Migrations\20230129195545_Create_Category_And_Course.Designer.cs
+C:\Lib\SoftServe\MVC\SS_EDUP\SS_EDUP.Infrastructure\Migrations\20230207091541_ChangeCategory.cs
+C:\Lib\SoftServe\MVC\SS_EDUP\SS_EDUP.Infrastructure\Migrations\20230207091541_ChangeCategory.Designer.cs
+C:\Lib\SoftServe\MVC\SS_EDUP\SS_EDUP.Infrastructure\Migrations\AppDbContextModelSnapshot.cs
+C:\Lib\SoftServe\MVC\SS_EDUP\SS_EDUP.Infrastructure\Repository\Repository.cs
+C:\Lib\SoftServe\MVC\SS_EDUP\SS_EDUP.Infrastructure\ServiceExtentions.cs

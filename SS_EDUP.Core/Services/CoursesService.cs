@@ -12,6 +12,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.WebRequestMethods;
 
 namespace SS_EDUP.Core.Services
 {
@@ -22,8 +23,8 @@ namespace SS_EDUP.Core.Services
         private readonly IRepository<Category> _categoryRepo;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
-        public CoursesService(IRepository<Course> courseRepo, 
-            IRepository<Category> categoryRepo, 
+        public CoursesService(IRepository<Course> courseRepo,
+            IRepository<Category> categoryRepo,
             IMapper mapper, IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
         {
             _courseRepo = courseRepo;
@@ -50,11 +51,22 @@ namespace SS_EDUP.Core.Services
             await _courseRepo.Save();
         }
 
-        public  async Task Delete(int id)
+        public async Task Delete(int id)
         {
-           var  course =  await Get(id);
+            var course = await Get(id);
             if (course != null)
             {
+                if (course.ImagePath != "https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png" && course.ImagePath != null)
+                {
+                    string upload = _webHostEnvironment.WebRootPath + _configuration.GetValue<string>("ImageSettings:ImagePath");
+                    var oldFile = Path.Combine(upload, course.ImagePath);
+
+                    if (System.IO.File.Exists(oldFile))
+                    {
+                        System.IO.File.Delete(oldFile);
+                    }
+                }
+
                 await _courseRepo.Delete(id);
                 await _courseRepo.Save();
             }
@@ -62,7 +74,7 @@ namespace SS_EDUP.Core.Services
 
         public async Task<CourseDto?> Get(int id)
         {
-            if(id <0)
+            if (id < 0)
                 return null;
             var course = await _courseRepo.GetByID(id);
             return _mapper.Map<CourseDto>(course);
@@ -75,14 +87,42 @@ namespace SS_EDUP.Core.Services
             return _mapper.Map<List<CourseDto>>(result);
         }
 
-       
-        public async Task  Update(CourseDto courseDto)
+
+        public async Task Update(CourseDto courseDto)
         {
-           await _courseRepo.Update(_mapper.Map<Course>(courseDto));
-           await _courseRepo.Save();
+            var course = await Get(courseDto.Id);
+            if(course != null)
+            {
+                if (course.ImagePath != "https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png" && course.ImagePath != null)
+                {
+                    string upload = _webHostEnvironment.WebRootPath + _configuration.GetValue<string>("ImageSettings:ImagePath");
+                    var oldFile = Path.Combine(upload, course.ImagePath);
+
+                    if (System.IO.File.Exists(oldFile))
+                    {
+                        System.IO.File.Delete(oldFile);
+                    }
+                }
+
+                string webPathRoot = _webHostEnvironment.WebRootPath;
+                var files = courseDto.File;
+                string uploads = webPathRoot + _configuration.GetValue<string>("ImageSettings:ImagePath");
+                string fileName = Guid.NewGuid().ToString();
+                string extension = Path.GetExtension(files[0].FileName);
+                using (var fileStream = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+                {
+                    files[0].CopyTo(fileStream);
+                }
+
+                courseDto.ImagePath = fileName + extension;
+            }
+            
+            await _courseRepo.Update(_mapper.Map<Course>(courseDto));
+            await _courseRepo.Save();
         }
 
-        public async Task<List<CourseDto>> GetByCategory(int id) {
+        public async Task<List<CourseDto>> GetByCategory(int id)
+        {
             var result = await _courseRepo.GetListBySpec(new Courses.ByCategory(id));
             return _mapper.Map<List<CourseDto>>(result);
         }

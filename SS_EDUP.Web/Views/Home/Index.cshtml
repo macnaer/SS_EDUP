@@ -4,7 +4,6 @@
     ViewData["Title"] = "Home Page";
 }
 
-
 <div class="container">
     <div class="row">
         <div class="col-3">
@@ -43,13 +42,11 @@
                                                         @if (course.ImagePath == "https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png")
                                                         {
                                                             <img src="@course.ImagePath" class="img-fluid shadow border-radius-xl" alt="user1">
-
                                                         }
                                                         else
                                                         {
                                                             <img src="~/images//courses/@course.ImagePath" class="img-fluid shadow border-radius-xl" alt="user1">
                                                         }
-
                                                     </a>
                                                 </div>
                                                 <div class="card-body px-1 pb-0">

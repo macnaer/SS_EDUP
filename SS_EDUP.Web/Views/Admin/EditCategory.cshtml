@@ -18,8 +18,10 @@
                                 <input asp-for="Id" type="hidden" class="form-control" aria-label="Id" aria-describedby="email-addon" />
                                 <input asp-for="Name" type="text" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="email-addon">
                                 <span class="text-danger" asp-validation-for="Name"></span>
-                                <input asp-for="Description" type="text" class="form-control" placeholder="Description" aria-label="Description" aria-describedby="email-addon">
-                                <span class="text-danger" asp-validation-for="Description"></span>
+                                <div class="mb-3">
+                                    <textarea asp-for="Description" id="summernote" class="form-control"></textarea>
+                                    <span class="text-danger" asp-validation-for="Description"></span>
+                                </div>
                             </div>
                   
                             <div class="text-center">
@@ -32,3 +34,14 @@
         </div>
     </div>
 </section>
+
+@section Scripts{
+        <script>
+            $(document).ready(function () {
+                $('#summernote').summernote({
+                    tabsize: 2,
+                    height: 200,
+                });
+            });
+        </script>
+}

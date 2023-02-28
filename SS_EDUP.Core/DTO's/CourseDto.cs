@@ -1,4 +1,5 @@
-﻿using SS_EDUP.Core.Entities;
+﻿using Microsoft.AspNetCore.Http;
+using SS_EDUP.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,6 @@ namespace SS_EDUP.Core.DTO_s
         const string defaultPath = "https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png";// ??
         public int CategoryId { get; set; }
         public string ? CategoryName { get; set; }
-
-        
+        public IFormFileCollection File { get; set; }
     }
 }

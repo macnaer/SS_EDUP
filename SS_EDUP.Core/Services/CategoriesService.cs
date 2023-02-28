@@ -54,8 +54,6 @@ namespace SS_EDUP.Core.Services
             return _mapper.Map<List<CategoryDto>>(result);
         }
 
-      
-
         public async Task Update(CategoryDto categoryDto)
         {
             await _categoryRepo.Update(_mapper.Map<Category>(categoryDto));

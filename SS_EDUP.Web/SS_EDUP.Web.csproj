@@ -26,4 +26,8 @@
     <ProjectReference Include="..\SS_EDUP.Infrastructure\SS_EDUP.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\courses\" />
+  </ItemGroup>
+
 </Project>

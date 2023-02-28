@@ -23,7 +23,14 @@ namespace SS_EDUP.Infrastructure.Context
 
             modelBuilder.SeedCategories();
             modelBuilder.SeedCourses();
+
+            //// Makes categories unique
+            modelBuilder.Entity<Category>().HasIndex(c => c.Name).IsUnique();
+            //// Makes courses uniqe 
+            modelBuilder.Entity<Course>().HasIndex(c => c.Title).IsUnique();
+
         }
+
         public DbSet<AppUser> AppUser { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Course> Courses { get; set; }

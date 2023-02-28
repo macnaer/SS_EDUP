@@ -7,6 +7,10 @@
             <div class="card mb-4">
                 <div class="card-header pb-0">
                     <h6>Categories table</h6>
+                    @if (User.IsInRole("Administrators"))
+                    {
+                        <a class="btn bg-gradient-primary w-100 px-3 mb-2 ms-2" asp-controller="Admin" asp-action="AddCategory" data-class="bg-white">Add category</a>
+                    }
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
@@ -16,10 +20,9 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
                                     @if (User.IsInRole("Administrators"))
-                                    {
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Details</th>
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Edit</th>
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Delete</th>
+                                    {                                     
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Edit</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Delete</th>
                                     }
 
                                 </tr>
@@ -41,19 +44,14 @@
                                         <td>
                                             <div class="d-flex px-2 py-1">
                                                 <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">@item.Description</h6>
+                                                    <h6 class="mb-0 text-sm">@Html.Raw(@item.Description)</h6>
                                                 </div>
                                             </div>
                                         </td>
                                         @if (User.IsInRole("Administrators"))
                                         {
                                             <td class="align-middle">
-                                                <a asp-controller="Admin" asp-action="CategoryDetails" asp-route-id="@item.Id" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                                                    Details
-                                                </a>
-                                            </td>
-                                            <td class="align-middle">
-                                                <a asp-controller="Admin" asp-action="EditCategory" asp-route-id="@item.Id" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                                <a asp-controller="Admin" asp-action="EditCategory" asp-route-id="@item.Id" class="text-secondary font-weight-bold text-xs d-flex flex-column justify-content-center" data-toggle="tooltip" data-original-title="Edit user">
                                                     Edit
                                                 </a>
                                             </td>

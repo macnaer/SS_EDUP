@@ -1,10 +1,7 @@
 ﻿@using SS_EDUP.Core.ViewModels.User;
 @model UserProfileVM
 <div class="container-fluid">
-    <div class="page-header min-height-300 border-radius-xl mt-4" style="background-image: url('../assets/img/curved-images/curved0.jpg'); background-position-y: 50%;">
-        <span class="mask bg-gradient-primary opacity-6"></span>
-    </div>
-    <div class="card card-body blur shadow-blur mx-4 mt-n6 overflow-hidden">
+    <div class="card card-body blur shadow-blur mx-4 mt-3 overflow-hidden">
         <div class="row gx-4">
             <div class="col-auto">
                 <div class="avatar avatar-xl position-relative">
@@ -17,7 +14,18 @@
                         @Model.Name @Model.Surname
                     </h5>
                     <p class="mb-0 font-weight-bold text-sm">
-                        CEO / Co-Founder
+                        @if (User.IsInRole("Administrators"))
+                        {
+                        <p>Administrator</p>
+                        }
+                        else if (User.IsInRole("Teachers"))
+                        {
+                        <p>Teacher</p>
+                        }
+                        else
+                        {
+                        <p>Student</p>
+                        }
                     </p>
                 </div>
             </div>
@@ -167,7 +175,7 @@
                         <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Email:</strong> &nbsp; @Model.Email</li>
                         <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Email confirmed:</strong> &nbsp; @Model.EmailConfirmed</li>
                         <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Locked:</strong> &nbsp; @Model.IsLocked</li>
-                        <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Role:</strong> &nbsp; @Model.Role</li>              
+                        <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Role:</strong> &nbsp; @Model.Role</li>
                     </ul>
                 </div>
             </div>

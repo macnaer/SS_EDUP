@@ -7,7 +7,7 @@
             <div class="card mb-4">
                 <div class="card-header pb-0">
                     <h6>Courses table</h6>
-                    @if (User.IsInRole("Administrators"))
+                    @if (User.IsInRole("Teachers"))
                     {
                         <a class="btn bg-gradient-primary w-100 px-3 mb-2 ms-2" asp-controller="Admin" asp-action="AddCourse" data-class="bg-white">Add course</a>
                     }
@@ -21,8 +21,11 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Description</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Price</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Category</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Edit</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Delete</th>
+                                    @if (User.IsInRole("Administrators"))
+                                    {
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Edit</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Delete</th>
+                                    }
                                 </tr>
                             </thead>
                             <tbody>

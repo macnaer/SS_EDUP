@@ -14,6 +14,7 @@ namespace SS_EDUP.Core.AutoMapper
         public AutoMapperLearning() {
             CreateMap<Learning, LearningDto>();
             CreateMap<LearningDto,Learning>();
+
         }
     }
 }

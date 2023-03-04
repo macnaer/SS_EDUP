@@ -19,7 +19,7 @@ namespace SS_EDUP.Core.Entities
 
         //author course foregin key roll teachers
         [ForeignKey("AppUserId")]
-        public string AuthorId { get; set; }
+        public string? AuthorId { get; set; }
         
      
         public Category? Category { get; set; }

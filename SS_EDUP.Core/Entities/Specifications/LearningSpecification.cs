@@ -11,21 +11,28 @@ namespace SS_EDUP.Core.Entities.Specifications
     public static class Learnings
     {
         // all product specifications
-        //public class All : Specification<Learning>
-        //{
-        //    public All()
-        //    {
-        //     //   Query.;
-        //    }
-        //}
+        public class All : Specification<Learning>
+        {
+            public All()
+            {
+                Query
+                    .Include(x => x.Course).ThenInclude(x => x.Category)
+                    .Include(x => x.Course).ThenInclude(x => x.Author);
+            }
+        }
 
 
         public class CoursesByStudent : Specification<Learning>
         {
             public CoursesByStudent(string studentId)
             {
-                Query.Where(x=>x.AppUserId==studentId)
-                   .Include(x => x.Course);
+                Query
+                  .Where(x=>x.AppUserId==studentId)
+                  .Include(x=>x.AppUser)
+                  .Include(x => x.Course).ThenInclude(x => x.Category)
+                  .Include(x => x.Course).ThenInclude(x => x.Author); ;
+     
+                   
             }
         }
 

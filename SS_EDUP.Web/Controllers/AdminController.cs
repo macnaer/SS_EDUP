@@ -394,5 +394,15 @@ namespace SS_EDUP.Web.Controllers
 
             return View();
         }
+
+        public async Task<IActionResult> GetLearning()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> MyCourses()
+        {
+            return View();
+        }
     }
 }

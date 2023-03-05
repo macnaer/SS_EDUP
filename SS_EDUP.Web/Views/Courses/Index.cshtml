@@ -37,15 +37,23 @@
             <tr>
                 <td>
                     <div>
-                        <img height="100" class="img-fluid shadow border-radius-x" src="@item.ImagePath">
+                        @if (item.ImagePath == "https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png")
+                        {
+                            <img src="@item.ImagePath" class="avatar avatar-sm me-3" alt="user1">
+
+                        }
+                        else
+                        {
+                        <img height="100" class="img-fluid shadow border-radius-x" src="~/images//courses/@item.ImagePath">
+                        }
                         @*@Html.DisplayFor(modelItem => item.ImagePath)*@
                     </div>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Title)
+                    @Html.Raw(item.Title)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Description)
+                    @Html.Raw(item.Description)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Price)

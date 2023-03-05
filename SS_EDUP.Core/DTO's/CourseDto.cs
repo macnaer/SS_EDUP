@@ -25,6 +25,7 @@ namespace SS_EDUP.Core.DTO_s
         public int CategoryId { get; set; }
         public string ? CategoryName { get; set; }
         public string? AuthorId { get; set; }
+        public string? AuthorFullName { get; set; }
         public IFormFileCollection File { get; set; }
     }
 }

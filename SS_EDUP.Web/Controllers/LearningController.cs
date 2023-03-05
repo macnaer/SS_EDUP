@@ -28,7 +28,7 @@ namespace SS_EDUP.Web.Controllers
         {
             var userId = HttpContext.User.Identity.GetUserId();
             var learning =await _learningService.GetByStudentId(userId);
-            
+                      
             return View(learning);
         }
 

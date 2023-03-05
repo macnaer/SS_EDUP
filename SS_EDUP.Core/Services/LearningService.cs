@@ -35,9 +35,19 @@ namespace SS_EDUP.Core.Services
             }
         }
 
-        public Task Delete(int id)
+        public async Task Delete(int id)
         {
-            throw new NotImplementedException();
+            var learning = await Get(id);
+            await _learningRepo.Delete(id);
+            await _learningRepo.Save();
+        }
+
+        public async Task<LearningDto?> Get(int id)
+        {
+            if (id < 0)
+                return null;
+            var learning = await _learningRepo.GetByID(id);
+            return _mapper.Map<LearningDto>(learning);
         }
 
         public Task<List<LearningDto>> GetAll()

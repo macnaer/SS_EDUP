@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using SS_EDUP.Core.DTO_s;
 using SS_EDUP.Core.Entities;
 using SS_EDUP.Core.Interfaces;
@@ -19,7 +20,10 @@ namespace SS_EDUP.Infrastructure
     {
         public static void AddDbContext(this IServiceCollection services, string connectionString)
         {
-            services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(connectionString));
+            services.AddDbContext<AppDbContext>(opt => {
+                opt.UseSqlServer(connectionString);
+                opt.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            });
         }
 
         public static void AddInfrastructureServices(this IServiceCollection services)
@@ -47,11 +51,11 @@ namespace SS_EDUP.Infrastructure
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         }
 
-        public static void AddCustomServices(this IServiceCollection services)
-        {
-            services.AddScoped<ICategoriesService, CategoriesService>();
-           services.AddScoped<ICoursesService, CoursesService>();
-        }
+        //public static void AddCustomServices(this IServiceCollection services)
+        //{
+        //    services.AddScoped<ICategoriesService, CategoriesService>();
+        //   services.AddScoped<ICoursesService, CoursesService>();
+        //}
 
     }
 }

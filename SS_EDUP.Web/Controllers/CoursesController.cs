@@ -69,6 +69,7 @@ namespace SS_EDUP.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(CourseDto courseDto) 
         {
+            courseDto.AuthorId = HttpContext.User.Identity.GetUserId();
             // TODO: add validations
 
             await _coursesService.Update(courseDto);

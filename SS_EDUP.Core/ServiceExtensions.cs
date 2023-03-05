@@ -29,6 +29,8 @@ namespace SS_EDUP.Core
 
             // Add Category service
             services.AddTransient<CategoriesService>();
+            // Add Learning service
+            services.AddTransient<LearningService>();
 
             // Add Fluent validation
             services.AddFluentValidation(x =>
@@ -45,12 +47,14 @@ namespace SS_EDUP.Core
             // Add user mapping
             services.AddAutoMapper(typeof(AutoMapperUserProfile));
             services.AddAutoMapper(typeof(AutoMapperCourseAndCategoryProfile));
+            services.AddAutoMapper(typeof(AutoMapperLearning));
         }
 
         public static void AddCategoryAndProductServices(this IServiceCollection services)
         {
             services.AddScoped<ICategoriesService, CategoriesService>();
             services.AddScoped<ICoursesService, CoursesService>();
+            services.AddScoped<ILearningService, LearningService>();
         }
 
 

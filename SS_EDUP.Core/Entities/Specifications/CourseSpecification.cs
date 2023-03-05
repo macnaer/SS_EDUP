@@ -38,5 +38,15 @@ namespace SS_EDUP.Core.Entities.Specifications
                    .Where(c=>c.CategoryId== categoryId);
             }
         }
+
+        public class ByIds : Specification<Course>
+        {
+            public ByIds(int[] ids)
+            {
+                Query
+                   .Where(x => ids.Contains(x.Id))
+                   .Include(x => x.Category);
+            }
+        }
     }
 }

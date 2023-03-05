@@ -1,0 +1,31 @@
+﻿@model IEnumerable<SS_EDUP.Core.DTO_s.CourseDto>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    string productImagePlaceholder = @"https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg";
+}
+
+<div class="card">
+    <div class="card-header">My Cart</div>
+
+    <div class="card-body">
+        <h5 class="card-title">Courses List</h5>
+
+        <ul class="list-group list-group-flush">
+            @foreach (var course in @Model)
+            {
+                <li class="list-group-item">
+                    <img src="@(course.ImagePath ?? productImagePlaceholder)" height="80" alt="@course.Title">
+                    <span><strong> @course.Title</strong> </span>
+                    <span>@course.Price$</span>
+                </li>
+
+            }
+        </ul>
+        <div class="card-footer">
+            <p>Total Price: @Model.Sum(p=>p.Price)$</p>
+            <a asp-controller="Learning" asp-action="Add" asp-route-id="" class="btn btn-primary">Confirm</a>
+        </div>
+    </div>
+</div>

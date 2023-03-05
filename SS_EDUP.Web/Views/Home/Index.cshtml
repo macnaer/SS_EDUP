@@ -1,5 +1,5 @@
-﻿@model IEnumerable<SS_EDUP.Core.DTO_s.CourseDto>
-
+﻿@*@model IEnumerable<SS_EDUP.Core.DTO_s.CourseDto>*@
+@*@model IEnumerable<SS_EDUP.Web.ViewModels.CourseCardViewModel>*@
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -11,7 +11,7 @@
                 @foreach (var category in @ViewBag.ListCategories)
                 {
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" asp-action="Index" asp-route-categoryId="@category.Id">@category.Name</a>
+                        <a class="btn @(category.Equals(ViewBag.SelectCategory) ? "nav-link active": "nav-link")"  aria-current="page" asp-action="Index" asp-route-categoryId="@category.Id">@category.Name</a>
                     </li>
                 }
             </ul>
@@ -39,31 +39,41 @@
                                             <div class="card card-blog card-plain">
                                                 <div class="position-relative">
                                                     <a class="d-block shadow-xl border-radius-xl">
-                                                        @if (course.ImagePath == "https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png")
+                                                        @if (course.CourseDto.ImagePath == "https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png")
                                                         {
-                                                            <img src="@course.ImagePath" class="img-fluid shadow border-radius-xl" alt="user1">
+                                                            <img src="@course.CourseDto.ImagePath" class="img-fluid shadow border-radius-xl" alt="user1">
                                                         }
                                                         else
                                                         {
-                                                            <img src="~/images//courses/@course.ImagePath" class="img-fluid shadow border-radius-xl" alt="user1">
+                                                            <img src="~/images//courses/@course.CourseDto.ImagePath" class="img-fluid shadow border-radius-xl" alt="user1">
                                                         }
                                                     </a>
                                                 </div>
                                                 <div class="card-body px-1 pb-0">
-                                                    <p class="text-gradient text-dark mb-2 text-sm">@course.CategoryName</p>
+                                                    <p class="text-gradient text-dark mb-2 text-sm">@course.CourseDto.CategoryName</p>
                                                     <a href="javascript:;">
                                                         <h5>
-                                                            @course.Title
+                                                            @course.CourseDto.Title
                                                         </h5>
                                                     </a>
                                                     <p class="mb-4 text-sm">
-                                                        @Html.Raw(@course.Description)
+                                                        @Html.Raw(@course.CourseDto.Description)
                                                     </p>
                                                     <p class="mb-4 text-sm">
-                                                        @course.Price UAH
+                                                        @course.CourseDto.Price UAH
                                                     </p>
                                                     <div class="d-flex align-items-center justify-content-between">
-                                                        <button type="button" class="btn btn-outline-primary btn-sm mb-0">Start Course</button>
+                                                        @if (!course.IsInCart)
+                                                        {
+                                                            <a asp-controller="Cart" asp-action="Add" asp-route-courseId="@course.CourseDto.Id" class="btn btn-outline-primary btn-sm mb-0">Add Cart</a>
+                                                        }
+                                                        else
+                                                        {
+                                                    <a asp-controller="Cart" asp-action="Remove" asp-route-courseId="@course.CourseDto.Id" class="btn btn-outline-secondary btn-sm mb-0">Delete Cart</a>
+                                                        }
+                                                  
+
+                                                      @*<a asp-controller="Cart" asp-action="Add" asp-route-courseId="@course.CourseDto.Id" class="btn btn-outline-primary btn-sm mb-0">Start Course @course.CourseDto.Id</a>*@
                                                         <div class="avatar-group mt-2">
                                                             <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Elena Morison">
                                                                 <img alt="Image placeholder" src="../assets/img/team-1.jpg">

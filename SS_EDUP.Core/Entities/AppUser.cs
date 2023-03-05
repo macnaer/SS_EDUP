@@ -11,5 +11,8 @@ namespace SS_EDUP.Core.Entities
     {
         public string Name { get; set; } = string.Empty;
         public string Surname { get; set; } = string.Empty;
+
+        //public ICollection<Course>? Courses { get; set; }
+        public ICollection<Learning>? Learnings { get; set; }
     }
 }

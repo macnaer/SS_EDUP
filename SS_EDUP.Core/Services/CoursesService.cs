@@ -80,6 +80,12 @@ namespace SS_EDUP.Core.Services
             return _mapper.Map<CourseDto>(course);
         }
 
+        public async Task<List<CourseDto>> Get(params int[] ids)
+        {
+            var result = await _courseRepo.GetListBySpec(new Courses.ByIds(ids));
+            return _mapper.Map<List<CourseDto>>(result);
+        }
+
         public async Task<List<CourseDto>> GetAll()
         {
             //return  _mapper.Map<List<CourseDto>>(await _courseRepo.Get(includeProperties: "Category")) ;

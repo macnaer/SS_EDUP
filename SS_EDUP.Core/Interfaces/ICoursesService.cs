@@ -11,6 +11,7 @@ namespace SS_EDUP.Core.Interfaces
     {
        Task< List<CourseDto>> GetAll(); //...
         Task<CourseDto?> Get(int id);
+        Task<List<CourseDto?>> Get(int[] ids);
         Task Create(CourseDto course);
         Task Update(CourseDto course);
         Task Delete(int id);

@@ -25,12 +25,12 @@ namespace SS_EDUP.Core
             services.AddTransient<EmailService>();
 
             // Add Course service
-            services.AddTransient<CoursesService>();
+          //  services.AddTransient<CoursesService>();
 
-            // Add Category service
-            services.AddTransient<CategoriesService>();
-            // Add Learning service
-            services.AddTransient<LearningService>();
+            //// Add Category service
+           // services.AddTransient<CategoriesService>();
+            //// Add Learning service
+           // services.AddTransient<LearningService>();
 
             // Add Fluent validation
             services.AddFluentValidation(x =>

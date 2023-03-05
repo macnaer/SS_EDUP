@@ -49,27 +49,6 @@ namespace SS_EDUP.Web.Controllers
             return RedirectToAction("Index");
         }
 
-        // POST: LearningController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: LearningController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
         // POST: LearningController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]

@@ -5,6 +5,7 @@ using SS_EDUP.Core.Entities;
 using SS_EDUP.Infrastructure;
 using SS_EDUP.Infrastructure.Context;
 using SS_EDUP.Infrastructure.Initializers;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 

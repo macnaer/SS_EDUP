@@ -21,7 +21,6 @@ namespace SS_EDUP.Core.Entities
         [ForeignKey("AppUserId")]
         public string? AuthorId { get; set; }
         
-     
         public Category? Category { get; set; }
         public AppUser? Author { get; set; }
 

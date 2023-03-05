@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -49,6 +50,7 @@ namespace SS_EDUP.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CourseDto courseDto)
         {
+            courseDto.AuthorId= HttpContext.User.Identity.GetUserId();
             await _coursesService.Create(courseDto);
             return RedirectToAction(nameof(Index));
         }
@@ -67,6 +69,7 @@ namespace SS_EDUP.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(CourseDto courseDto) 
         {
+            courseDto.AuthorId = HttpContext.User.Identity.GetUserId();
             // TODO: add validations
 
             await _coursesService.Update(courseDto);

@@ -335,6 +335,8 @@ namespace SS_EDUP.Web.Controllers
             {             
                 var files = HttpContext.Request.Form.Files;
                 model.File = files;
+                //change field 
+                model.AuthorId = HttpContext.User.Identity.GetUserId();
                 await _coursesService.Create(model);
                 return RedirectToAction(nameof(GetCourses));
             }

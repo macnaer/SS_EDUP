@@ -50,7 +50,7 @@ namespace SS_EDUP.Infrastructure
         public static void AddCustomServices(this IServiceCollection services)
         {
             services.AddScoped<ICategoriesService, CategoriesService>();
-            services.AddScoped<ICoursesService, CoursesService>();
+           services.AddScoped<ICoursesService, CoursesService>();
         }
 
     }

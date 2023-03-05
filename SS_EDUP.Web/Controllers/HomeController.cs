@@ -53,7 +53,12 @@ namespace SS_EDUP.Web.Controllers
             {
                 course.IsInCart = IsCourseInCart(course.CourseDto.Id);
             }
-
+            if (HttpContext.User.Identity.IsAuthenticated) {
+                foreach (var course in coursesVM)
+                {
+                    course.IsInCart = IsCourseInCart(course.CourseDto.Id);
+                }
+            }
             if (categoryId != null && categoryId > 0)
             {
                 coursesVM = coursesVM.Where(c => c.CourseDto.CategoryId == categoryId).ToList();

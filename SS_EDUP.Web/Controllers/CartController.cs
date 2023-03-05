@@ -41,7 +41,6 @@ namespace SS_EDUP.Web.Controllers
 
         public IActionResult Remove(int courseId)
         {
-           
             var courseIds = HttpContext.Session.Get<List<int>>("cart-list");
             //if (courseIds.Find(courseId) == null) return NotFound();
             courseIds.Remove(courseId);

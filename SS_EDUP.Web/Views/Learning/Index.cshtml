@@ -1,9 +1,8 @@
-﻿@model IEnumerable<SS_EDUP.Core.DTO_s.LearningDto>
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    Layout = "~/Views/Shared/_AdminPanelLayout.cshtml";
 }
+
+@model IEnumerable<SS_EDUP.Core.DTO_s.LearningDto>
 <div class="col-12 mt-4">
     <div class="card mb-4">
         <div class="card-header pb-0 p-3">
@@ -38,16 +37,16 @@
                                     <button type="button" class="btn btn-outline-primary btn-sm mb-0">View Project</button>
                                     <div class="avatar-group mt-2">
                                         <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Elena Morison" data-bs-original-title="Elena Morison">
-                                            <img alt="Image placeholder" src="../assets/img/team-1.jpg">
+                                            <img alt="Image placeholder" src="~/assets/img/team-1.jpg">
                                         </a>
                                         <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Ryan Milly" data-bs-original-title="Ryan Milly">
-                                            <img alt="Image placeholder" src="../assets/img/team-2.jpg">
+                                            <img alt="Image placeholder" src="~/assets/img/team-2.jpg">
                                         </a>
                                         <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Nick Daniel" data-bs-original-title="Nick Daniel">
-                                            <img alt="Image placeholder" src="../assets/img/team-3.jpg">
+                                            <img alt="Image placeholder" src="~/assets/img/team-3.jpg">
                                         </a>
                                         <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Peterson" data-bs-original-title="Peterson">
-                                            <img alt="Image placeholder" src="../assets/img/team-4.jpg">
+                                            <img alt="Image placeholder" src="~/assets/img/team-4.jpg">
                                         </a>
                                     </div>
                                 </div>
@@ -55,7 +54,6 @@
                         </div>
                     </div>
                 }
-            
 
             </div>
         </div>

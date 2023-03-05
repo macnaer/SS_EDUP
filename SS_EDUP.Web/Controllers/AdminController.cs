@@ -168,7 +168,6 @@ namespace SS_EDUP.Web.Controllers
             return View();
         }
 
-        
         public async Task<IActionResult> EditUser(string id)
         {
             var result = await _userService.GetUserByIdAsync(id);
@@ -392,16 +391,6 @@ namespace SS_EDUP.Web.Controllers
                 return RedirectToAction(nameof(GetCourses));
             }
 
-            return View();
-        }
-
-        public async Task<IActionResult> GetLearning()
-        {
-            return View();
-        }
-
-        public async Task<IActionResult> MyCourses()
-        {
             return View();
         }
     }

@@ -35,17 +35,24 @@ namespace SS_EDUP.Core.Services
         }
         public async Task Create(CourseDto courseDto)
         {
-            string webPathRoot = _webHostEnvironment.WebRootPath;
-            var files = courseDto.File;
-            string upload = webPathRoot + _configuration.GetValue<string>("ImageSettings:ImagePath");
-            string fileName = Guid.NewGuid().ToString();
-            string extension = Path.GetExtension(files[0].FileName);
-            using (var fileStream = new FileStream(Path.Combine(upload, fileName + extension), FileMode.Create))
+            if(courseDto.File.Count > 0)
             {
-                files[0].CopyTo(fileStream);
+                string webPathRoot = _webHostEnvironment.WebRootPath;
+                var files = courseDto.File;
+                string upload = webPathRoot + _configuration.GetValue<string>("ImageSettings:ImagePath");
+                string fileName = Guid.NewGuid().ToString();
+                string extension = Path.GetExtension(files[0].FileName);
+                using (var fileStream = new FileStream(Path.Combine(upload, fileName + extension), FileMode.Create))
+                {
+                    files[0].CopyTo(fileStream);
+                }
+                courseDto.ImagePath = fileName + extension;
             }
-
-            courseDto.ImagePath = fileName + extension;
+            else
+            {
+                courseDto.ImagePath = "https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png";
+            }
+            
 
             await _courseRepo.Insert(_mapper.Map<Course>(courseDto));
             await _courseRepo.Save();
@@ -99,7 +106,8 @@ namespace SS_EDUP.Core.Services
             var course = await Get(courseDto.Id);
             if(course != null)
             {
-                if (course.ImagePath != "https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png" && course.ImagePath != null)
+               
+                    if (course.ImagePath != "https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png" && course.ImagePath != null)
                 {
                     string upload = _webHostEnvironment.WebRootPath + _configuration.GetValue<string>("ImageSettings:ImagePath");
                     var oldFile = Path.Combine(upload, course.ImagePath);
@@ -109,18 +117,26 @@ namespace SS_EDUP.Core.Services
                         System.IO.File.Delete(oldFile);
                     }
                 }
-
-                string webPathRoot = _webHostEnvironment.WebRootPath;
-                var files = courseDto.File;
-                string uploads = webPathRoot + _configuration.GetValue<string>("ImageSettings:ImagePath");
-                string fileName = Guid.NewGuid().ToString();
-                string extension = Path.GetExtension(files[0].FileName);
-                using (var fileStream = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+                if (courseDto.File.Count > 0)
                 {
-                    files[0].CopyTo(fileStream);
+                    string webPathRoot = _webHostEnvironment.WebRootPath;
+                    var files = courseDto.File;
+                    string uploads = webPathRoot + _configuration.GetValue<string>("ImageSettings:ImagePath");
+                    string fileName = Guid.NewGuid().ToString();
+                    string extension = Path.GetExtension(files[0].FileName);
+                    using (var fileStream = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+                    {
+                        files[0].CopyTo(fileStream);
+                    }
+
+                    courseDto.ImagePath = fileName + extension;
+                }
+                else
+                {
+                    courseDto.ImagePath = "https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png";
+
                 }
 
-                courseDto.ImagePath = fileName + extension;
             }
             
             await _courseRepo.Update(_mapper.Map<Course>(courseDto));

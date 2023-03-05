@@ -9,7 +9,8 @@ namespace SS_EDUP.Core.Interfaces
 {
     public interface ILearningService
     {
-        Task<List<LearningDto>> GetAll(); 
+        Task<List<LearningDto>> GetAll();
+        Task<LearningDto?> Get(int id);
         Task Add( string studentId, params int[] ids);
         Task Update(LearningDto learning);
         Task Delete(int id);

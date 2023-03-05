@@ -39,13 +39,14 @@ namespace SS_EDUP.Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+       
         public IActionResult Remove(int courseId)
         {
             var courseIds = HttpContext.Session.Get<List<int>>("cart-list");
             //if (courseIds.Find(courseId) == null) return NotFound();
             courseIds.Remove(courseId);
             HttpContext.Session.Set("cart-list", courseIds);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index");
         }
     }
 }

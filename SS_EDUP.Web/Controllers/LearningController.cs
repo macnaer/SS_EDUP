@@ -44,7 +44,10 @@ namespace SS_EDUP.Web.Controllers
             var userId = HttpContext.User.Identity.GetUserId();
             List<int> ids = HttpContext.Session.Get<List<int>>("cart-list");
             if (ids == null) return BadRequest();
-            _learningService.Add(userId,ids.ToArray());
+            var studentLearningIds =(await _learningService.GetByStudentId(userId)).Select(x=>x.CourseID);
+            int[] confirmIds = ids.Where(x => !studentLearningIds.Contains(x)).ToArray();
+       
+            _learningService.Add(userId, confirmIds);
             HttpContext.Session.Clear();
             return RedirectToAction("Index");
         }

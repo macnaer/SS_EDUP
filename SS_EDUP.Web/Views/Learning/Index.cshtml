@@ -38,20 +38,13 @@
                                             Progress: @learn.Progress
                                         </p>
                                         <div class="d-flex align-items-center justify-content-between">
-                                            <button type="button" class="btn btn-outline-primary btn-sm mb-0">View Project</button>
+                                            <button type="button" class="btn btn-outline-primary btn-sm mb-0">Study</button>
                                             <div class="avatar-group mt-2">
-                                                <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Elena Morison" data-bs-original-title="Elena Morison">
-                                                    <img alt="Image placeholder" src="~/assets/img/team-1.jpg">
+                                                <a href="javascript:;" class="avatar avatar-md rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label=@learn.Progress data-bs-original-title="@learn.Progress %">
+                                                    @*<img alt="Image placeholder" src="~/assets/img/team-1.jpg">*@
+                                                    <progress value="@learn.Progress" max="100" data-bs-original-title="@learn.Progress %">@learn.Progress %</progress>
                                                 </a>
-                                                <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Ryan Milly" data-bs-original-title="Ryan Milly">
-                                                    <img alt="Image placeholder" src="~/assets/img/team-2.jpg">
-                                                </a>
-                                                <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Nick Daniel" data-bs-original-title="Nick Daniel">
-                                                    <img alt="Image placeholder" src="~/assets/img/team-3.jpg">
-                                                </a>
-                                                <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Peterson" data-bs-original-title="Peterson">
-                                                    <img alt="Image placeholder" src="~/assets/img/team-4.jpg">
-                                                </a>
+                                               
                                             </div>
                                         </div>
                                     </div>

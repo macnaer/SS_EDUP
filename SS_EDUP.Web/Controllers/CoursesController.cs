@@ -65,6 +65,7 @@ namespace SS_EDUP.Web.Controllers
             await _coursesService.Create(courseDto);
             return RedirectToAction(nameof(Index));
         }
+
         // GET: ~/Products/Edit/{id}
         public async Task<IActionResult> Edit(int id)
         {

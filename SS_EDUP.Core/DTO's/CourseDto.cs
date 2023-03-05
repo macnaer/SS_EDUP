@@ -24,6 +24,7 @@ namespace SS_EDUP.Core.DTO_s
         const string defaultPath = "https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png";// ??
         public int CategoryId { get; set; }
         public string ? CategoryName { get; set; }
+        public string? AuthorId { get; set; }
         public IFormFileCollection File { get; set; }
     }
 }

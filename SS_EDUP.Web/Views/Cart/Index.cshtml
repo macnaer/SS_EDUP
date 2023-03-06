@@ -1,4 +1,8 @@
-﻿@model IEnumerable<SS_EDUP.Core.DTO_s.CourseDto>
+﻿@*@model IEnumerable<SS_EDUP.Core.DTO_s.CourseDto>*@
+@model IEnumerable<SS_EDUP.Web.ViewModels.CourseCardViewModel>
+@inject SignInManager<AppUser> SignInManager;
+@using Microsoft.AspNetCore.Identity;
+@using SS_EDUP.Core.Entities;
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -16,16 +20,23 @@
             @foreach (var course in @Model)
             {
                 <li class="list-group-item">
-                    <img src="@(course.ImagePath ?? productImagePlaceholder)" height="80" alt="@course.Title">
-                    <span><strong> @course.Title</strong> </span>
-                    <span>@course.Price$</span>
-                    <span>   <a asp-controller="Cart" asp-action="Remove" asp-route-courseId="@course.Id" class="btn btn-primary">Delete</a></span>
+                    <img src="@(course.CourseDto.ImagePath ?? productImagePlaceholder)" height="80" alt="@course.CourseDto.Title">
+                    <span><strong> @course.CourseDto.Title</strong> </span>
+                    <span>@course.CourseDto.Price$</span>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        if (course.IsLearning)
+                        {
+                            <a asp-controller="" asp-action="" asp-route-courseId="@course.CourseDto.Id" class="btn btn-outline-info btn-sm mb-0">In Progress</a>
+                        }
+                    }
+                    <span>  <a asp-controller="Cart" asp-action="Remove" asp-route-courseId="@course.CourseDto.Id" class="btn btn-primary">Delete</a></span>
                 </li>
 
             }
         </ul>
         <div class="card-footer">
-            <p>Total Price: @Model.Sum(p=>p.Price)$</p>
+            <p>Total Price: @Model.Where(x=>x.IsLearning==false).Sum(p=>p.CourseDto.Price)$</p>
             <a asp-controller="Learning" asp-action="Add" asp-route-id="" class="btn btn-primary">Confirm</a>
         </div>
     </div>

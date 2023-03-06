@@ -34,7 +34,7 @@ namespace SS_EDUP.Web.Controllers
             categories.Insert(0, new CategoryDto { Id = 0, Name = "All", Description = "All" });
             ViewBag.ListCategories = categories;
             ViewBag.SelectCategory = categories.Where(c => c.Id == categoryId).First().Name;
-            List<CourseDto> courses = null;
+            List<CourseDetailDto> courses = null;
             if (categoryId == 0)
             {
                 courses = await _coursesService.GetAll();

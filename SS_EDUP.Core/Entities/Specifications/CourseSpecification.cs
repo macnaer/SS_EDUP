@@ -37,7 +37,7 @@ namespace SS_EDUP.Core.Entities.Specifications
                 Query
                     .Include(x => x.Category)
                     .Include(x => x.Author)
-                   .Where(c=>c.CategoryId== categoryId);
+                    .Where(c=>c.CategoryId== categoryId);
             }
         }
 

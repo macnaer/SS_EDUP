@@ -243,15 +243,13 @@ namespace SS_EDUP.Web.Controllers
             return RedirectToAction("Index", "Admin");
         }
 
-
         [HttpPost]
         public async Task<IActionResult> UserSettings(UpdateProfileVM model)
         {
             var validator = new UpdateProfileValidation();
             var validationResult = await validator.ValidateAsync(model);
             if (validationResult.IsValid)
-            {
-                
+            {     
                 var result = await _userService.UpdateProfileAsync(model);
                 if (result.Success)
                 {
@@ -270,127 +268,6 @@ namespace SS_EDUP.Web.Controllers
             {
                 return View(result.Payload);
             }
-            return View();
-        }
-
-        public async Task<IActionResult> GetCategories()
-        {
-            return View(await _categoriesService.GetAll());
-        }
-
-        public async Task<IActionResult> EditCategory(int Id)
-        {
-            var categoryDto = await _categoriesService.Get(Id);
-
-            if (categoryDto == null) return NotFound();
-
-
-            return View(categoryDto);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> EditCategory(CategoryDto categoryDto)
-        {
-            await _categoriesService.Update(categoryDto);
-
-            return RedirectToAction(nameof(GetCategories));
-        }
-
-        public async Task<IActionResult> DeleteCategory(int id)
-        {
-            await _categoriesService.Delete(id);
-
-            return RedirectToAction(nameof(GetCategories));
-        }
-
-        public async Task<IActionResult> GetCourses()
-        {
-            return View(await _coursesService.GetAll());
-        }
-
-
-        private async Task LoadCategories()// ??
-        {
-            ViewBag.CategoriesList = new SelectList(
-                await _categoriesService.GetAll(),
-                nameof(CategoryDto.Id),
-                nameof(CategoryDto.Name)
-                );
-
-        }
-        public async Task<IActionResult> AddCourse()
-        {
-            await LoadCategories();
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddCourse(CourseDto model)
-        {
-            var validator = new AddCourseValidation();
-            var validationResult = await validator.ValidateAsync(model);
-            if(validationResult.IsValid)
-            {             
-                var files = HttpContext.Request.Form.Files;
-                model.File = files;
-                //change field  AuthorId
-                model.AuthorId = HttpContext.User.Identity.GetUserId();
-                await _coursesService.Create(model);
-                return RedirectToAction(nameof(GetCourses));
-            }
-            
-            return View();
-        }
-
-        public async Task<IActionResult> AddCategory()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> AddCategory(CategoryDto model)
-        {
-            var validator = new AddCategoryValidation();
-            var validationResult = await validator.ValidateAsync(model);
-            if(validationResult.IsValid)
-            {
-                await _categoriesService.Create(model);
-                return RedirectToAction(nameof(GetCategories));
-            }
-            return View();
-        }
-
-        public async Task<IActionResult> DeleteCourse(int Id)
-        {
-            await _coursesService.Delete(Id);
-
-            return RedirectToAction(nameof(GetCourses));
-        }
-
-        public async Task<IActionResult> EditCourse(int id)
-        {
-            await LoadCategories();
-            var result = await _coursesService.Get(id);
-            return View(result);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditCourse(CourseDto model)
-        {
-            var validator = new AddCourseValidation();
-            var validationResult = await validator.ValidateAsync(model);
-            if (validationResult.IsValid)
-            {
-                var files = HttpContext.Request.Form.Files;
-                model.File = files;
-                //change field  AuthorId
-                model.AuthorId = HttpContext.User.Identity.GetUserId();
-                await _coursesService.Update(model);
-                return RedirectToAction(nameof(GetCourses));
-            }
-
             return View();
         }
     }

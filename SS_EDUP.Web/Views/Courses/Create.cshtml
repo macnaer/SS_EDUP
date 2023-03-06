@@ -12,7 +12,7 @@
                         <h5>Add new course</h5>
                     </div>
                     <div class="card-body">
-                        <form role="form text-left" method="post" enctype="multipart/form-data" asp-controller="Admin" asp-action="AddCourse">
+                        <form role="form text-left" method="post" enctype="multipart/form-data" asp-controller="Courses" asp-action="Create">
                             @if (@ViewBag.Error != null)
                             {
                                 <span class="text-danger">@ViewBag.Error</span>

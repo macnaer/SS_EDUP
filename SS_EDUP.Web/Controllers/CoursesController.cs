@@ -13,6 +13,7 @@ using SS_EDUP.Core.Entities;
 using SS_EDUP.Core.Entities.Specifications;
 using SS_EDUP.Core.Interfaces;
 using SS_EDUP.Core.Services;
+using SS_EDUP.Core.Validation.Course;
 using SS_EDUP.Infrastructure.Context;
 using X.PagedList;
 
@@ -60,6 +61,7 @@ namespace SS_EDUP.Web.Controllers
 
         }
         // GET: ~/Courses/Create
+        [Authorize(Roles = "Teachers")]
         public async Task<IActionResult> Create()
         {
             await LoadCategories();
@@ -68,15 +70,27 @@ namespace SS_EDUP.Web.Controllers
         }
 
         // POST: ~/Courses/Create
+        [Authorize(Roles = "Teachers")]
         [HttpPost]
-        public async Task<IActionResult> Create(CourseDto courseDto)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(CourseDto model)
         {
-            courseDto.AuthorId = HttpContext.User.Identity.GetUserId();
-            await _coursesService.Create(courseDto);
-            return RedirectToAction("Index", "Courses");
+            var validator = new AddCourseValidation();
+            var validationResult = await validator.ValidateAsync(model);
+            if (validationResult.IsValid)
+            {
+                var files = HttpContext.Request.Form.Files;
+                model.File = files;
+                //change field  AuthorId
+                model.AuthorId = HttpContext.User.Identity.GetUserId();
+                await _coursesService.Create(model);
+                return RedirectToAction("Index", "Courses");
+            }
+            return View();
         }
 
         // GET: ~/Products/Edit/{id}
+        [Authorize(Roles = "Teachers, Administrators")]
         public async Task<IActionResult> Edit(int id)
         {
             var course = await _coursesService.Get(id);
@@ -88,18 +102,30 @@ namespace SS_EDUP.Web.Controllers
         }
 
         // POST: ~/Products/Edit
+        [Authorize(Roles = "Teachers, Administrators")]
         [HttpPost]
-        public async Task<IActionResult> Edit(CourseDto courseDto)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(CourseDto model)
         {
-           // courseDto.AuthorId = HttpContext.User.Identity.GetUserId();
+            // courseDto.AuthorId = HttpContext.User.Identity.GetUserId();
             // TODO: add validations
+            var validator = new AddCourseValidation();
+            var validationResult = await validator.ValidateAsync(model);
+            if (validationResult.IsValid)
+            {
+                var files = HttpContext.Request.Form.Files;
+                model.File = files;
+                //change field  AuthorId
+                model.AuthorId = HttpContext.User.Identity.GetUserId();
+                await _coursesService.Update(model);
+                return RedirectToAction("Index", "Courses");
+            }
 
-            await _coursesService.Update(courseDto);
-
-            return RedirectToAction(nameof(Index));
+            return View();
         }
 
         // GET: ~/Products/Delete/{id}
+        [Authorize(Roles = "Teachers, Administrators")]
         public async Task<IActionResult> Delete(int id)
         {
             await _coursesService.Delete(id);

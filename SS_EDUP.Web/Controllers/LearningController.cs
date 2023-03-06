@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SS_EDUP.Core.DTO_s;
+using SS_EDUP.Core.Entities.Specifications;
 using SS_EDUP.Core.Interfaces;
 using SS_EDUP.Core.Services;
 using SS_EDUP.Web.Helpers;
+using X.PagedList;
 
 namespace SS_EDUP.Web.Controllers
 {
@@ -24,12 +26,14 @@ namespace SS_EDUP.Web.Controllers
         }
 
         // GET: LearningController
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
             var userId = HttpContext.User.Identity.GetUserId();
             var learning =await _learningService.GetByStudentId(userId);
-                      
-            return View(learning);
+            int pageSize = 4;
+            int pageNumber = (page ?? 1);
+            return View(learning.ToPagedList(pageNumber, pageSize));
+        
         }
 
         // GET: LearningController/Details/5

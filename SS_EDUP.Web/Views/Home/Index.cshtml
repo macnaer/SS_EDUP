@@ -3,6 +3,13 @@
 
 @inject SignInManager<AppUser> SignInManager
 
+@model IPagedList<SS_EDUP.Web.ViewModels.CourseCardViewModel>
+@using X.PagedList.Mvc;
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
+@*@using PagedList;
+@using PagedList.Mvc;*@
 
 @*@model IEnumerable<SS_EDUP.Core.DTO_s.CourseDto>*@
 @*@model IEnumerable<SS_EDUP.Web.ViewModels.CourseCardViewModel>*@
@@ -17,7 +24,7 @@
                 @foreach (var category in @ViewBag.ListCategories)
                 {
                     <li class="nav-item">
-                        <a class="btn @(category.Equals(ViewBag.SelectCategory) ? "nav-link active": "nav-link")"  aria-current="page" asp-action="Index" asp-route-categoryId="@category.Id">@category.Name</a>
+                         <a class="btn @(category.Equals(ViewBag.SelectCategory) ? "nav-link active": "nav-link")" aria-current="page" asp-action="Index" asp-route-categoryId="@category.Id">@category.Name</a>
                     </li>
                 }
             </ul>
@@ -63,7 +70,7 @@
                                                         </h5>
                                                     </a>
                                                     <p class="mb-4 text-sm">
-                                                        @course.CourseDto.AuthorFullName
+                                                        @*@course.CourseDto.AuthorFullName*@
                                                     </p>
                                                     <p class="mb-4 text-sm">
                                                         @Html.Raw(@course.CourseDto.Description)
@@ -125,21 +132,19 @@
 
                 </div>
                 <div class="row m-3">
-                    <nav aria-label="...">
-                        <ul class="pagination">
-                            <li class="page-item disabled">
-                                <span class="page-link">Prev</span>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item active" aria-current="page">
-                                <span class="page-link">2</span>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">Next</a>
-                            </li>
-                        </ul>
-                    </nav>
+
+                    @Html.PagedListPager(Model, page => Url.Action("index", new { page = page }), new PagedListRenderOptions()
+                    {
+                    ActiveLiElementClass = "active",
+                    PageClasses = new[]{ "page-link"},
+                    LiElementClasses=new[] { "page-item" },
+                    UlElementClasses = new[] { "pagination","justify-content-center", "mt-3" },
+                    //LinkToNextPageFormat = "Next",
+                    //LinkToPreviousPageFormat = "Prev",
+                    MaximumPageNumbersToDisplay = 3,
+                    DisplayLinkToPreviousPage = PagedListDisplayMode.Never,
+                    DisplayLinkToNextPage = PagedListDisplayMode.Never
+                    })
                 </div>
             </div>
 

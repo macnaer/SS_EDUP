@@ -19,10 +19,10 @@ namespace SS_EDUP.Core.AutoMapper
             CreateMap<Course, CourseDto>()
                 .ForMember(
                     dst => dst.CategoryName,
-                    act => act.MapFrom(x => GetCategoryName(x)))
-                .ForMember(
-                dst => dst.AuthorFullName,
-                act => act.MapFrom(x => GetAuthorFullName(x)));
+                    act => act.MapFrom(x => GetCategoryName(x)));
+                //.ForMember(
+                //dst => dst.AuthorFullName,
+                //act => act.MapFrom(x => GetAuthorFullName(x)));
             CreateMap<CourseDto, Course>();
         }
 
@@ -30,11 +30,11 @@ namespace SS_EDUP.Core.AutoMapper
         {
             return course.Category?.Name ?? "Not loaded";
         }
-        static string GetAuthorFullName(Course course)
-        {
-            string? fullname = $"{course.Author?.Surname} {course.Author.Name}" ?? course.Author?.UserName;
-            return fullname ?? "Not loaded";
-        }
+        //static string GetAuthorFullName(Course course)
+        //{
+        //    string? fullname = $"{course.Author?.Surname} {course.Author.Name}" ?? course.Author?.UserName;
+        //    return fullname ?? "Not loaded";
+        //}
         
     }
 }

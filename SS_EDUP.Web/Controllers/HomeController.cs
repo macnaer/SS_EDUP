@@ -3,11 +3,9 @@ using SS_EDUP.Core.Interfaces;
 using SS_EDUP.Core.DTO_s;
 using SS_EDUP.Web.Models;
 using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using SS_EDUP.Core.Services;
 using SS_EDUP.Web.Helpers;
-using Microsoft.EntityFrameworkCore;
 using SS_EDUP.Web.ViewModels;
+using X.PagedList;
 
 namespace SS_EDUP.Web.Controllers
 {
@@ -29,7 +27,7 @@ namespace SS_EDUP.Web.Controllers
             _learningService = learningService;
         }
 
-        public async Task<IActionResult> Index(int categoryId = 0)
+        public async Task<IActionResult> Index(int? page,int categoryId = 0)
         {
             /*List<CategoryDto> */
             var categories = await _categoriesService.GetAll();
@@ -57,7 +55,7 @@ namespace SS_EDUP.Web.Controllers
                 course.IsInCart = IsCourseInCart(course.CourseDto.Id);
             }
 
-            if (HttpContext.User.Identity.IsAuthenticated)
+            if (HttpContext.User.Identity.IsAuthenticated && User.IsInRole("Students"))
             {
                 var learningCourses =await _learningService.GetAll();
                 foreach (var course in coursesVM)
@@ -71,9 +69,11 @@ namespace SS_EDUP.Web.Controllers
             {
                 coursesVM = coursesVM.Where(c => c.CourseDto.CategoryId == categoryId).ToList();
             }
-
-            return View(coursesVM);
-            //return View(await _coursesService.GetByCategory(categoryId));
+            int pageSize = 4;
+            int pageNumber = (page ?? 1);
+         
+            return View(coursesVM.ToPagedList(pageNumber, pageSize));
+       
         }
 
         private bool IsCourseInCart(int id)

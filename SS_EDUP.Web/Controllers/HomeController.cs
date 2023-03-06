@@ -1,15 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using X.PagedList;
-using System.Web;
 using SS_EDUP.Core.Interfaces;
 using SS_EDUP.Core.DTO_s;
 using SS_EDUP.Web.Models;
 using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using SS_EDUP.Core.Services;
 using SS_EDUP.Web.Helpers;
-using Microsoft.EntityFrameworkCore;
 using SS_EDUP.Web.ViewModels;
+using X.PagedList;
 
 namespace SS_EDUP.Web.Controllers
 {
@@ -59,7 +55,7 @@ namespace SS_EDUP.Web.Controllers
                 course.IsInCart = IsCourseInCart(course.CourseDto.Id);
             }
 
-            if (HttpContext.User.Identity.IsAuthenticated)
+            if (HttpContext.User.Identity.IsAuthenticated && User.IsInRole("Students"))
             {
                 var learningCourses =await _learningService.GetAll();
                 foreach (var course in coursesVM)

@@ -10,9 +10,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SS_EDUP.Core.DTO_s;
 using SS_EDUP.Core.Entities;
+using SS_EDUP.Core.Entities.Specifications;
 using SS_EDUP.Core.Interfaces;
 using SS_EDUP.Core.Services;
 using SS_EDUP.Infrastructure.Context;
+using X.PagedList;
 
 namespace SS_EDUP.Web.Controllers
 {
@@ -30,14 +32,22 @@ namespace SS_EDUP.Web.Controllers
             _userService = userService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
+            List<CourseDto> courses = null;
             if (User.IsInRole("Teachers"))
             {
                 var authorId = HttpContext.User.Identity.GetUserId();
-                return View(await _coursesService.GetByAuthor(authorId));
+                courses = await _coursesService.GetByAuthor(authorId);
             }
-            return View(await _coursesService.GetAll());
+            else {
+                courses = await _coursesService.GetAll();
+            }
+            int pageSize = 4;
+            int pageNumber = (page ?? 1);
+
+            return View(courses.ToPagedList(pageNumber, pageSize));
+          
         }
 
         private async Task LoadCategories()// ??
@@ -81,7 +91,7 @@ namespace SS_EDUP.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(CourseDto courseDto)
         {
-            courseDto.AuthorId = HttpContext.User.Identity.GetUserId();
+           // courseDto.AuthorId = HttpContext.User.Identity.GetUserId();
             // TODO: add validations
 
             await _coursesService.Update(courseDto);

@@ -19,6 +19,12 @@
                                 <span class="text-danger" asp-validation-for="Title"></span>
                             </div>
                             <div class="mb-3">
+                                <input asp-for="AuthorId" type="text" class="form-control" placeholder="Author" aria-label="Title" aria-describedby="email-addon" hidden>
+                                <input asp-for="AuthorFullName" type="text" class="form-control" placeholder="Author" aria-label="Title" aria-describedby="email-addon" disabled>
+                                <span class="text-danger" asp-validation-for="AuthorFullName"></span>
+                            </div>
+
+                            <div class="mb-3">
                                 <textarea asp-for="Description" id="summernote" class="form-control"></textarea>
                                 <span class="text-danger" asp-validation-for="Description"></span>
                             </div>

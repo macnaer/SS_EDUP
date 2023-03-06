@@ -24,7 +24,7 @@
                 @foreach (var category in @ViewBag.ListCategories)
                 {
                     <li class="nav-item">
-                        <a class="btn @(category.Equals(ViewBag.SelectCategory) ? "nav-link active": "nav-link")"  aria-current="page" asp-action="Index" asp-route-categoryId="@category.Id">@category.Name</a>
+                         <a class="btn @(category.Equals(ViewBag.SelectCategory) ? "nav-link active": "nav-link")" aria-current="page" asp-action="Index" asp-route-categoryId="@category.Id">@category.Name</a>
                     </li>
                 }
             </ul>

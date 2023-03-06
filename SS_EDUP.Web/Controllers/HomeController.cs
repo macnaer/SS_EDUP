@@ -17,13 +17,16 @@ namespace SS_EDUP.Web.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ICategoriesService _categoriesService;
         private readonly ICoursesService _coursesService;
+        private readonly ILearningService _learningService;
         public HomeController(ILogger<HomeController> logger,
                              ICategoriesService categoriesService,
-                             ICoursesService coursesService)
+                             ICoursesService coursesService,
+                             ILearningService learningService)
         {
             _logger = logger;
             _categoriesService = categoriesService;
             _coursesService = coursesService;
+            _learningService = learningService;
         }
 
         public async Task<IActionResult> Index(int categoryId = 0)
@@ -54,6 +57,16 @@ namespace SS_EDUP.Web.Controllers
                 course.IsInCart = IsCourseInCart(course.CourseDto.Id);
             }
 
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+                var learningCourses =await _learningService.GetAll();
+                foreach (var course in coursesVM)
+                {
+                    var index = learningCourses.FindIndex(x=>x.CourseID==course.CourseDto.Id);
+                    course.IsLearning = index!=-1 ;
+                }
+            }
+
             if (categoryId != null && categoryId > 0)
             {
                 coursesVM = coursesVM.Where(c => c.CourseDto.CategoryId == categoryId).ToList();
@@ -69,6 +82,7 @@ namespace SS_EDUP.Web.Controllers
             if (ids == null) return false;
             return ids.Contains(id);
         }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

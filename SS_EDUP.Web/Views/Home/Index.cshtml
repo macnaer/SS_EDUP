@@ -1,4 +1,10 @@
-﻿@*@model IEnumerable<SS_EDUP.Core.DTO_s.CourseDto>*@
+﻿@using Microsoft.AspNetCore.Identity
+@using SS_EDUP.Core.Entities;
+
+@inject SignInManager<AppUser> SignInManager
+
+
+@*@model IEnumerable<SS_EDUP.Core.DTO_s.CourseDto>*@
 @*@model IEnumerable<SS_EDUP.Web.ViewModels.CourseCardViewModel>*@
 @{
     ViewData["Title"] = "Home Page";
@@ -66,17 +72,39 @@
                                                         @course.CourseDto.Price UAH
                                                     </p>
                                                     <div class="d-flex align-items-center justify-content-between">
-                                                        @if (!course.IsInCart)
+
+                                                        @if (SignInManager.IsSignedIn(User))
                                                         {
-                                                            <a asp-controller="Cart" asp-action="Add" asp-route-courseId="@course.CourseDto.Id" class="btn btn-outline-primary btn-sm mb-0">Add Cart</a>
+                                                            if (course.IsLearning)
+                                                            {
+                                                                <a asp-controller="" asp-action="" asp-route-courseId="@course.CourseDto.Id" class="btn btn-outline-info btn-sm mb-0">Learning</a>
+                                                            }
+                                                            else {
+
+                                                                @if (!course.IsInCart)
+                                                                {
+                                                                    <a asp-controller="Cart" asp-action="Add" asp-route-courseId="@course.CourseDto.Id" class="btn btn-outline-primary btn-sm mb-0">Add Cart</a>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <a asp-controller="Cart" asp-action="Remove" asp-route-courseId="@course.CourseDto.Id" class="btn btn-outline-secondary btn-sm mb-0">Delete Cart</a>
+                                                                }
+                                                            }
                                                         }
                                                         else
                                                         {
-                                                    <a asp-controller="Cart" asp-action="Remove" asp-route-courseId="@course.CourseDto.Id" class="btn btn-outline-secondary btn-sm mb-0">Delete Cart</a>
+                                                            @if (!course.IsInCart)
+                                                            {
+                                                                <a asp-controller="Cart" asp-action="Add" asp-route-courseId="@course.CourseDto.Id" class="btn btn-outline-primary btn-sm mb-0">Add Cart</a>
+                                                            }
+                                                            else
+                                                            {
+                                                                <a asp-controller="Cart" asp-action="Remove" asp-route-courseId="@course.CourseDto.Id" class="btn btn-outline-secondary btn-sm mb-0">Delete Cart</a>
+                                                            }
                                                         }
-                                                  
 
-                                                      @*<a asp-controller="Cart" asp-action="Add" asp-route-courseId="@course.CourseDto.Id" class="btn btn-outline-primary btn-sm mb-0">Start Course @course.CourseDto.Id</a>*@
+
+                                                        @*<a asp-controller="Cart" asp-action="Add" asp-route-courseId="@course.CourseDto.Id" class="btn btn-outline-primary btn-sm mb-0">Start Course @course.CourseDto.Id</a>*@
                                                         <div class="avatar-group mt-2">
                                                             <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Elena Morison">
                                                                 <img alt="Image placeholder" src="../assets/img/team-1.jpg">

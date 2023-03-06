@@ -148,6 +148,13 @@ namespace SS_EDUP.Core.Services
             var result = await _courseRepo.GetListBySpec(new Courses.ByCategory(id));
             return _mapper.Map<List<CourseDto>>(result);
         }
+
+        public async Task<List<CourseDto>> GetByAuthor(string id)
+        {
+            var result = await _courseRepo.GetListBySpec(new Courses.ByAuthor(id));
+            return _mapper.Map<List<CourseDto>>(result);
+        }
+       
     }
 }
 

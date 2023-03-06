@@ -4,35 +4,46 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SS_EDUP.Core.DTO_s;
 using SS_EDUP.Core.Entities;
 using SS_EDUP.Core.Interfaces;
+using SS_EDUP.Core.Services;
 using SS_EDUP.Infrastructure.Context;
 
 namespace SS_EDUP.Web.Controllers
 {
+    [Authorize]
     public class CoursesController : Controller
     {
         private readonly ICoursesService _coursesService;
-        private readonly ICategoriesService _categoriesService; 
+        private readonly ICategoriesService _categoriesService;
+        private readonly UserService _userService;
 
-        public CoursesController(ICoursesService coursesService, ICategoriesService categoriesService)
+        public CoursesController(ICoursesService coursesService, ICategoriesService categoriesService,UserService userService)
         {
             _coursesService = coursesService;
             _categoriesService = categoriesService;
+            _userService = userService;
         }
+
         public async Task<IActionResult> Index()
         {
+            if (User.IsInRole("Teachers"))
+            {
+                var authorId = HttpContext.User.Identity.GetUserId();
+                return View(await _coursesService.GetByAuthor(authorId));
+            }
             return View(await _coursesService.GetAll());
         }
 
         private async Task LoadCategories()// ??
         {
-            ViewBag.CategoriesList =  new SelectList(
-                await _categoriesService.GetAll(), 
+            ViewBag.CategoriesList = new SelectList(
+                await _categoriesService.GetAll(),
                 nameof(CategoryDto.Id),
                 nameof(CategoryDto.Name)
                 );
@@ -45,19 +56,20 @@ namespace SS_EDUP.Web.Controllers
             return View();
 
         }
-        
+
         // POST: ~/Courses/Create
         [HttpPost]
         public async Task<IActionResult> Create(CourseDto courseDto)
         {
-            courseDto.AuthorId= HttpContext.User.Identity.GetUserId();
+            courseDto.AuthorId = HttpContext.User.Identity.GetUserId();
             await _coursesService.Create(courseDto);
             return RedirectToAction(nameof(Index));
         }
+
         // GET: ~/Products/Edit/{id}
         public async Task<IActionResult> Edit(int id)
         {
-            var course =  await _coursesService.Get(id);
+            var course = await _coursesService.Get(id);
 
             if (course == null) return NotFound();
 
@@ -67,7 +79,7 @@ namespace SS_EDUP.Web.Controllers
 
         // POST: ~/Products/Edit
         [HttpPost]
-        public async Task<IActionResult> Edit(CourseDto courseDto) 
+        public async Task<IActionResult> Edit(CourseDto courseDto)
         {
             courseDto.AuthorId = HttpContext.User.Identity.GetUserId();
             // TODO: add validations
@@ -78,12 +90,14 @@ namespace SS_EDUP.Web.Controllers
         }
 
         // GET: ~/Products/Delete/{id}
-        public async Task <IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             await _coursesService.Delete(id);
 
             return RedirectToAction(nameof(Index));
         }
+
+
 
     }
 }

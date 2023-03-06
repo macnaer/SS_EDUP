@@ -6,6 +6,7 @@ namespace SS_EDUP.Web.ViewModels
     public class CourseCardViewModel
     {
         public CourseDto? CourseDto { get; set; }
-        public bool IsInCart { get; set; } 
+        public bool IsInCart { get; set; }
+        public bool IsLearning { get; set; }
     }
 }

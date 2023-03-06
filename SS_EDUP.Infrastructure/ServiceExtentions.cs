@@ -51,11 +51,6 @@ namespace SS_EDUP.Infrastructure
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         }
 
-        //public static void AddCustomServices(this IServiceCollection services)
-        //{
-        //    services.AddScoped<ICategoriesService, CategoriesService>();
-        //   services.AddScoped<ICoursesService, CoursesService>();
-        //}
 
     }
 }

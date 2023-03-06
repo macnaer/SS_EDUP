@@ -19,6 +19,7 @@
                     <img src="@(course.ImagePath ?? productImagePlaceholder)" height="80" alt="@course.Title">
                     <span><strong> @course.Title</strong> </span>
                     <span>@course.Price$</span>
+                    <span>   <a asp-controller="Cart" asp-action="Remove" asp-route-courseId="@course.Id" class="btn btn-primary">Delete</a></span>
                 </li>
 
             }

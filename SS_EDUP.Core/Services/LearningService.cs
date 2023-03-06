@@ -23,15 +23,18 @@ namespace SS_EDUP.Core.Services
         {
             foreach (var id in ids)
             {
-                LearningDto learningDto = new LearningDto()
-                {
-                    CourseID = id,
-                    AppUserId = studentId,
-                    Progress = 0
-                };
-               await _learningRepo.Insert(_mapper.Map<Learning>(learningDto));
-               await _learningRepo.Save();
-
+                //var learning = (await _learningRepo.GetAll()).FirstOrDefault(x => x.CourseID == id);
+                //if (learning is null)
+                //{
+                    LearningDto learningDto = new LearningDto()
+                    {
+                        CourseID = id,
+                        AppUserId = studentId,
+                        Progress = 0
+                    };
+                    await _learningRepo.Insert(_mapper.Map<Learning>(learningDto));
+                    await _learningRepo.Save();
+                //}
             }
         }
 
@@ -50,9 +53,11 @@ namespace SS_EDUP.Core.Services
             return _mapper.Map<LearningDto>(learning);
         }
 
-        public Task<List<LearningDto>> GetAll()
+        public async Task<List<LearningDto>> GetAll()
         {
-            throw new NotImplementedException();
+            var result = await _learningRepo.GetListBySpec(new Learnings.All());
+            return _mapper.Map<List<LearningDto>>(result);
+
         }
 
         public Task<LearningDto?> GetByCourse(int id)

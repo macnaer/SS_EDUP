@@ -51,5 +51,16 @@ namespace SS_EDUP.Core.Entities.Specifications
                    .Include(x=>x.Author);
             }
         }
+
+        public class ByAuthor : Specification<Course>
+        {
+            public ByAuthor(string authorId)
+            {
+                Query
+                    .Include(x => x.Category)
+                    .Include(x => x.Author)
+                   .Where(c => c.AuthorId == authorId);
+            }
+        }
     }
 }

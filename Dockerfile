@@ -12,5 +12,4 @@ RUN dotnet restore "SS_EDUP.Web.csproj"
 
 RUN dotnet publish "SS_EDUP.Web.csproj" -c Release -o /app/build
 WORKDIR /app/build
-RUN export ASPNETCORE_ENVIRONMENT=Development
 ENTRYPOINT ["dotnet", "SS_EDUP.Web.dll", "--urls=http://0.0.0.0:80"]

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SS_EDUP.Core.DTO_s
 {
-    internal class CourseDetailDTO
+    internal class CourseDetailDto
     {
     }
 }

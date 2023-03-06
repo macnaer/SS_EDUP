@@ -73,7 +73,7 @@ namespace SS_EDUP.Web.Controllers
         {
             courseDto.AuthorId = HttpContext.User.Identity.GetUserId();
             await _coursesService.Create(courseDto);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Courses");
         }
 
         // GET: ~/Products/Edit/{id}

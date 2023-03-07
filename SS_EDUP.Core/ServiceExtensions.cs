@@ -50,7 +50,7 @@ namespace SS_EDUP.Core
             services.AddAutoMapper(typeof(AutoMapperLearning));
         }
 
-        public static void AddCategoryAndProductServices(this IServiceCollection services)
+        public static void AddCategoryAndCourseServices(this IServiceCollection services)
         {
             services.AddScoped<ICategoriesService, CategoriesService>();
             services.AddScoped<ICoursesService, CoursesService>();

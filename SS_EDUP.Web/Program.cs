@@ -16,7 +16,7 @@ builder.Services.AddDbContext(connStr);
 // Add Repositories
 builder.Services.AddRepositories();
 // service configurations
-builder.Services.AddCategoryAndProductServices();
+builder.Services.AddCategoryAndCourseServices();
 
 // Add Infrastructure Service  configurations
 builder.Services.AddInfrastructureServices();

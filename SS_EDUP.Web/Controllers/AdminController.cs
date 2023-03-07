@@ -59,7 +59,7 @@ namespace SS_EDUP.Web.Controllers
                 var result = await _userService.LoginUserAsync(model);
                 if (result.Success)
                 {
-                    return RedirectToAction("Index", "Admin");
+                    return RedirectToAction("Index", "Home");
                 }
                 ViewBag.AuthError = result.Message;
                 return View(model);
@@ -269,6 +269,18 @@ namespace SS_EDUP.Web.Controllers
                 return View(result.Payload);
             }
             return View();
+        }
+
+        public async Task<IActionResult> GetCourses()
+        {
+            return View(await _coursesService.GetAll());
+        }
+
+        public async Task<IActionResult> DeleteCourse(int id)
+        {
+            await _coursesService.Delete(id);
+
+            return RedirectToAction(nameof(GetCourses));
         }
     }
 }

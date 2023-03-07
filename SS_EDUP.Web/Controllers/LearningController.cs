@@ -83,6 +83,7 @@ namespace SS_EDUP.Web.Controllers
         public async Task<IActionResult> DetailLearning(int id) {
             var userId = HttpContext.User.Identity.GetUserId();
             var result = (await _learningService.GetByStudentId(userId)).Where(c=>c.Id==id).FirstOrDefault();
+
             return View(result);
         }
 

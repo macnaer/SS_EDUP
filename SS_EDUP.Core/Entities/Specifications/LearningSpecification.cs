@@ -45,8 +45,6 @@ namespace SS_EDUP.Core.Entities.Specifications
                   .Include(x => x.AppUser)
                   .Include(x => x.Course).ThenInclude(x => x.Category)
                   .Include(x => x.Course).ThenInclude(x => x.Author); ;
-
-
             }
         }
 

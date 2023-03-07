@@ -9,6 +9,12 @@ C:\Lib\SoftServe\MVC\SS_EDUP\SS_EDUP.Infrastructure\Migrations\20230129195545_Cr
 C:\Lib\SoftServe\MVC\SS_EDUP\SS_EDUP.Infrastructure\Migrations\20230129195545_Create_Category_And_Course.Designer.cs
 C:\Lib\SoftServe\MVC\SS_EDUP\SS_EDUP.Infrastructure\Migrations\20230207091541_ChangeCategory.cs
 C:\Lib\SoftServe\MVC\SS_EDUP\SS_EDUP.Infrastructure\Migrations\20230207091541_ChangeCategory.Designer.cs
+C:\Lib\SoftServe\MVC\SS_EDUP\SS_EDUP.Infrastructure\Migrations\20230226104126_Setup models.cs
+C:\Lib\SoftServe\MVC\SS_EDUP\SS_EDUP.Infrastructure\Migrations\20230226104126_Setup models.Designer.cs
+C:\Lib\SoftServe\MVC\SS_EDUP\SS_EDUP.Infrastructure\Migrations\20230226104417_Setup models 2.cs
+C:\Lib\SoftServe\MVC\SS_EDUP\SS_EDUP.Infrastructure\Migrations\20230226104417_Setup models 2.Designer.cs
+C:\Lib\SoftServe\MVC\SS_EDUP\SS_EDUP.Infrastructure\Migrations\20230304211656_CreatLearning.cs
+C:\Lib\SoftServe\MVC\SS_EDUP\SS_EDUP.Infrastructure\Migrations\20230304211656_CreatLearning.Designer.cs
 C:\Lib\SoftServe\MVC\SS_EDUP\SS_EDUP.Infrastructure\Migrations\AppDbContextModelSnapshot.cs
 C:\Lib\SoftServe\MVC\SS_EDUP\SS_EDUP.Infrastructure\Repository\Repository.cs
 C:\Lib\SoftServe\MVC\SS_EDUP\SS_EDUP.Infrastructure\ServiceExtentions.cs

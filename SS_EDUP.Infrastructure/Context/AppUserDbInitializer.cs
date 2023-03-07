@@ -39,7 +39,7 @@ namespace SS_EDUP.Infrastructure.Context
                     Title = "C++ Advanced",
                     Description="Description C++ Advanced",
                     Price = 910.0m,
-                    CategoryId = 1
+                    CategoryId = 1,
                 },
                 new Course()
                 {

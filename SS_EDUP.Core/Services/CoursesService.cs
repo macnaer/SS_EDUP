@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
@@ -87,17 +88,18 @@ namespace SS_EDUP.Core.Services
             return _mapper.Map<CourseDto>(course);
         }
 
-        public async Task<List<CourseDto>> Get(params int[] ids)
+        public async Task<List<CourseDetailDto>> Get(params int[] ids)
         {
             var result = await _courseRepo.GetListBySpec(new Courses.ByIds(ids));
-            return _mapper.Map<List<CourseDto>>(result);
+            return _mapper.Map<List<CourseDetailDto>>(result);
         }
 
-        public async Task<List<CourseDto>> GetAll()
+
+        public async Task<List<CourseDetailDto>> GetAll()
         {
             //return  _mapper.Map<List<CourseDto>>(await _courseRepo.Get(includeProperties: "Category")) ;
             var result = await _courseRepo.GetListBySpec(new Courses.All());
-            return _mapper.Map<List<CourseDto>>(result);
+            return _mapper.Map<List<CourseDetailDto>>(result);
         }
 
 
@@ -143,16 +145,16 @@ namespace SS_EDUP.Core.Services
             await _courseRepo.Save();
         }
 
-        public async Task<List<CourseDto>> GetByCategory(int id)
+        public async Task<List<CourseDetailDto>> GetByCategory(int id)
         {
             var result = await _courseRepo.GetListBySpec(new Courses.ByCategory(id));
-            return _mapper.Map<List<CourseDto>>(result);
+            return _mapper.Map<List<CourseDetailDto>>(result);
         }
 
-        public async Task<List<CourseDto>> GetByAuthor(string id)
+        public async Task<List<CourseDetailDto>> GetByAuthor(string id)
         {
             var result = await _courseRepo.GetListBySpec(new Courses.ByAuthor(id));
-            return _mapper.Map<List<CourseDto>>(result);
+            return _mapper.Map<List<CourseDetailDto>>(result);
         }
        
     }

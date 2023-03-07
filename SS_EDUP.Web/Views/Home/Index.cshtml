@@ -11,8 +11,7 @@
 @*@using PagedList;
 @using PagedList.Mvc;*@
 
-@*@model IEnumerable<SS_EDUP.Core.DTO_s.CourseDto>*@
-@*@model IEnumerable<SS_EDUP.Web.ViewModels.CourseCardViewModel>*@
+
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -70,7 +69,7 @@
                                                         </h5>
                                                     </a>
                                                     <p class="mb-4 text-sm">
-                                                        @*@course.CourseDto.AuthorFullName*@
+                                                        @course.CourseDto.AuthorFullName
                                                     </p>
                                                     <p class="mb-4 text-sm">
                                                         @Html.Raw(@course.CourseDto.Description)
@@ -84,7 +83,7 @@
                                                         {
                                                             if (course.IsLearning)
                                                             {
-                                                                <a asp-controller="" asp-action="" asp-route-courseId="@course.CourseDto.Id" class="btn btn-outline-info btn-sm mb-0">Learning</a>
+                                                                <a asp-controller="" asp-action="" asp-route-courseId="@course.CourseDto.Id" class="btn btn-outline-info btn-sm mb-0">In Progress</a>
                                                             }
                                                             else {
 

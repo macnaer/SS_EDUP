@@ -36,6 +36,20 @@ namespace SS_EDUP.Core.Entities.Specifications
             }
         }
 
+        public class LearningById : Specification<Learning>
+        {
+            public LearningById(int learningId)
+            {
+                Query
+                  .Where(x => x.Id == learningId)
+                  .Include(x => x.AppUser)
+                  .Include(x => x.Course).ThenInclude(x => x.Category)
+                  .Include(x => x.Course).ThenInclude(x => x.Author); ;
+
+
+            }
+        }
+
 
     }
 }

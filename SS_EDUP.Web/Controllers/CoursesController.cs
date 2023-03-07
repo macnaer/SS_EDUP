@@ -33,16 +33,17 @@ namespace SS_EDUP.Web.Controllers
             _userService = userService;
         }
 
+        [Authorize(Roles = "Teachers, Administrators")]
         public async Task<IActionResult> Index(int? page)
         {
-            List<CourseDto> courses = null;
+            List<CourseDetailDto> courses = null;
             if (User.IsInRole("Teachers"))
             {
                 var authorId = HttpContext.User.Identity.GetUserId();
                 courses = await _coursesService.GetByAuthor(authorId);
             }
             else {
-                courses = await _coursesService.GetAll();
+                courses =  await _coursesService.GetAll();
             }
             int pageSize = 4;
             int pageNumber = (page ?? 1);

@@ -1,4 +1,4 @@
-﻿@model IPagedList<SS_EDUP.Core.DTO_s.CourseDto>
+﻿@model IPagedList<SS_EDUP.Core.DTO_s.CourseDetailDto>
 @{
     ViewData["Title"] = "Courses";
     Layout = "~/Views/Shared/_AdminPanelLayout.cshtml";
@@ -39,7 +39,7 @@
                                         </a>
                                     </div>
                                     <div class="card-body px-1 pb-0">
-                                        @*<p class="text-gradient text-dark mb-2 text-sm">@item.AuthorFullName</p>*@
+                                       <p class="text-gradient text-dark mb-2 text-sm">@item.AuthorFullName</p>
                                         <p>
                                             <h5>
                                                 @item.Title

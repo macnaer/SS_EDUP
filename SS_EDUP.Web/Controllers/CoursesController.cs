@@ -90,7 +90,7 @@ namespace SS_EDUP.Web.Controllers
             return View();
         }
 
-        // GET: ~/Products/Edit/{id}
+        // GET: ~/Courses/Edit/{id}
         [Authorize(Roles = "Teachers, Administrators")]
         public async Task<IActionResult> Edit(int id)
         {
@@ -102,7 +102,7 @@ namespace SS_EDUP.Web.Controllers
             return View(course);
         }
 
-        // POST: ~/Products/Edit
+        // POST: ~/Courses/Edit
         [Authorize(Roles = "Teachers, Administrators")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -125,7 +125,7 @@ namespace SS_EDUP.Web.Controllers
             return View();
         }
 
-        // GET: ~/Products/Delete/{id}
+        // GET: ~/Courses/Delete/{id}
         [Authorize(Roles = "Teachers, Administrators")]
         public async Task<IActionResult> Delete(int id)
         {

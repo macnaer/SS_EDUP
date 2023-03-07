@@ -37,12 +37,12 @@ namespace SS_EDUP.Core.AutoMapper
         }
         static string GetCategoryName(Learning learning)
         {
-            return learning.Course.Category?.Name ?? "Not loaded";
+            return learning.Course?.Category?.Name ?? "Not loaded";
         }
         static string GetImagePath(Learning learning)
         {
            
-            return learning.Course.ImagePath;
+            return learning.Course?.ImagePath;
         }
         static string GetAuthorName(Learning learning)
         {

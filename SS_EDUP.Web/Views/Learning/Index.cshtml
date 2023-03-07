@@ -40,17 +40,17 @@
                                         <a href="javascript:;">
                                             <h5>
                                                 @learn.CourseTitle
-
                                             </h5>
                                         </a>
                                         <h6>Author (teacher): @learn.AuthorName</h6>
                                         <p class="mb-4 text-sm">
-                                            Start Leatning: @learn.StartDate
-                                            Progress: @learn.Progress
+                                            Start Leatning: @learn.StartDate.ToString("yyyy-MM-dd")
+                                          
                                         </p>
+            
                                         <div class="d-flex align-items-center justify-content-between">
-                                            <button type="button" class="btn btn-outline-primary btn-sm mb-0">Study</button>
-                                            <div class="avatar-group mt-2">
+                                            <a asp-controller="Learning" asp-action="DetailLearning" asp-route-id="@learn.Id" class="btn btn-outline-primary btn-sm mb-0">Study</a>
+                                        <div class="avatar-group mt-2">
                                                 <a href="javascript:;" class="avatar avatar-md rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label=@learn.Progress data-bs-original-title="@learn.Progress %">
                                                     @*<img alt="Image placeholder" src="~/assets/img/team-1.jpg">*@
                                                     <progress value="@learn.Progress" max="100" data-bs-original-title="@learn.Progress %">@learn.Progress %</progress>

@@ -51,7 +51,7 @@ namespace SS_EDUP.Web.Controllers
             var studentLearningIds =(await _learningService.GetByStudentId(userId)).Select(x=>x.CourseID);
             int[] confirmIds = ids.Where(x => !studentLearningIds.Contains(x)).ToArray();
        
-            _learningService.Add(userId, confirmIds);
+            await _learningService.Add(userId, confirmIds);
             HttpContext.Session.Clear();
             return RedirectToAction("Index");
         }
@@ -72,9 +72,19 @@ namespace SS_EDUP.Web.Controllers
         }
 
         // GET: LearningController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> DeleteAsync(int id)
         {
-            return View();
+            await _learningService.Delete(id);
+
+            return RedirectToAction(nameof(Index));
+         
+        }
+        
+        public async Task<IActionResult> DetailLearning(int id) {
+            var userId = HttpContext.User.Identity.GetUserId();
+            var result = (await _learningService.GetByStudentId(userId)).Where(c=>c.Id==id).FirstOrDefault();
+
+            return View(result);
         }
 
         // POST: LearningController/Delete/5

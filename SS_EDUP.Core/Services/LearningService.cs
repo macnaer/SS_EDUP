@@ -26,11 +26,13 @@ namespace SS_EDUP.Core.Services
                 //var learning = (await _learningRepo.GetAll()).FirstOrDefault(x => x.CourseID == id);
                 //if (learning is null)
                 //{
-                    LearningDto learningDto = new LearningDto()
-                    {
-                        CourseID = id,
-                        AppUserId = studentId,
-                        Progress = 0
+               
+                LearningDto learningDto = new LearningDto()
+                {
+                    CourseID = id,
+                    AppUserId = studentId,
+                    StartDate = DateTime.Now,
+                    Progress = 0
                     };
                     await _learningRepo.Insert(_mapper.Map<Learning>(learningDto));
                     await _learningRepo.Save();

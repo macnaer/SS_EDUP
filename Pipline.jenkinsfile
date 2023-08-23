@@ -13,9 +13,7 @@ pipeline  {
     stages {
         stage ("Remove all containers and images"){
              steps{
-               sh''
-                    bash clear_docker.sh
-                 '''
+               sh 'bash clear_docker.sh'
             }
           }
          stage ("Run MSSQL container"){

@@ -14,7 +14,7 @@ pipeline  {
         stage ("Remove all containers and images"){
              steps{
                sh'''#!/bin/sh 
-                    sudo clear_docker.sh
+                    clear_docker.sh
                  '''
             }
           }

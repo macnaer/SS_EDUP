@@ -18,7 +18,7 @@ pipeline  {
           }
         stage ("Create folder and add permission"){
              steps{
-               sh 'mkdir /home/db > /dev/null 2>&1 && chmod 644 -R /home/db > /dev/null 2>&1'
+               sh 'mkdir -p /home/db > /dev/null 2>&1 && chmod 644 -R /home/db'
             }
           }
          stage ("Run MSSQL container"){

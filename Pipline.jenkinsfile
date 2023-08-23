@@ -13,8 +13,8 @@ pipeline  {
     stages {
         stage ("Remove all containers and images"){
              steps{
-               sh'''#!/bin/sh 
-                    clear_docker.sh
+               sh''
+                    bash clear_docker.sh
                  '''
             }
           }

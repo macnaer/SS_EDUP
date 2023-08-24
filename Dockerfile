@@ -4,9 +4,6 @@ WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 COPY . .
-
-#WORKDIR /app/SS_EDUP.Web
-
 RUN dotnet restore "SS_EDUP.Web/SS_EDUP.Web.csproj"
 
 # Install the dotnet-ef tool locally

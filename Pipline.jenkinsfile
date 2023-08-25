@@ -47,13 +47,5 @@ pipeline  {
                 '''
             }
         }
-        stage("docker run") {
-            steps {
-                echo " ============== starting demo  =================="
-                sh '''
-                docker run -d --restart=always --name ss_edup -p 80:80 macnaer/ss_edup
-                '''
-            }
-        }
     }
 }

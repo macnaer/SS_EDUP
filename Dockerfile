@@ -7,7 +7,7 @@ COPY . .
 RUN dotnet restore "SS_EDUP.Web/SS_EDUP.Web.csproj"
 
 # Install the dotnet-ef tool locally
-RUN dotnet tool install -g dotnet-ef
+RUN dotnet tool install -g dotnet-ef --version 7.0.7
 ENV PATH $PATH:/root/.dotnet/tools
 RUN dotnet-ef database update --startup-project "SS_EDUP.Web" --project "SS_EDUP.Infrastructure/SS_EDUP.Infrastructure.csproj"
 
